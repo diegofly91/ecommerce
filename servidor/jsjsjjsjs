@@ -1,0 +1,17 @@
+ """ Campos para los Users nuevos """
+
+    #  input UserInput {
+    #      id : Int
+    #      nombre : String!
+    #      apellido : String
+    #      telefono : Int
+    #      passw : String!
+    #      identificacion: Int!
+    #      tipo_usuario: TypoUsers!
+    #  }
+    
+    """ Mutation para crear nuevos Users"""
+    #  type Mutation {
+         """ Te permite crear nuevos Users """
+     #     crearUser( input : UserInput ) : User
+     # }
