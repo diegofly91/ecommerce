@@ -2,14 +2,14 @@
 import {Sequelize } from 'sequelize';
 import { promisify } from 'util';
 
-
-const sequelize = new Sequelize('ecommerce2', 'root', '', {
+  const sequelize = new Sequelize('ecommerce2', 'root', '', {
     host: 'localhost',
     dialect: 'mysql', 
     define: {
         timestamps: false
     }
   })
+
 
   sequelize.authenticate = promisify(sequelize.authenticate);
 

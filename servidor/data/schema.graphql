@@ -26,13 +26,17 @@
         precio: Int
         ruta: String
         fecha: String
+        descripcion: String
+        titulo1: String
+        detalles: String
     } 
 
 
      """ Query para ver datos de los Users"""
      type Query { 
-         user (id : Int!) : [User]
+         user (id : Int!) : User
          users: [User]
          TypeUsers : [TypoUsers]
          products: [Products]
+         product (ruta: String!): Products
      }
