@@ -1,2 +1,6 @@
 /servidor/node_modules
+/servidor/.history/
+/cliente/.history/
+/servidor/productosimg/
 /cliente/node_modules
+

@@ -2,15 +2,16 @@ import express from 'express';
 
 //graphqlnp
 
-import { ApolloServer } from 'apollo-server-express';
+import { ApolloServer  } from 'apollo-server-express';
+
+//resolvers y definitions
 import { typeDefs } from './data/schema';
 import { resolvers } from './data/resolvers';
 
-//resolvers
 
 const app = express();
 
-const server = new ApolloServer({typeDefs,resolvers});
+const server = new ApolloServer({typeDefs,resolvers,});
 
 server.applyMiddleware({app});
 

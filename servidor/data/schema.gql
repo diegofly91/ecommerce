@@ -1,3 +1,4 @@
+
   """ Campos de los TypeUsers """
     type TypoUsers {
         id: Int
@@ -29,7 +30,29 @@
         descripcion: String
         titulo1: String
         detalles: String
+        vistas: Int
+        id_categoria: Int
+        id_tipo: Int
+        id_genero:Int
+        cantidad:Int
+        image: [ImageProduct]
     } 
+
+    type ImageProduct {
+        id:ID
+        id_producto: Int
+        imagen: String
+        orden: Int
+        product: [Products]
+    }
+
+    type Category {
+        id: ID!
+        nombre: String!
+        ruta: String!
+        fecha: String
+        id_categoria: Int
+    }
 
 
      """ Query para ver datos de los Users"""
@@ -39,4 +62,18 @@
          TypeUsers : [TypoUsers]
          products: [Products]
          product (ruta: String!): Products
+         imageProduct : [ImageProduct]
+         category: [Category]
      }
+   type File {
+     id:iD!
+     path: String!
+     filename: String!
+     mimetype: String!
+     encoding: String!
+  }
+  
+
+type Mutation {
+     singleUpload(file: Upload!): File!
+}
