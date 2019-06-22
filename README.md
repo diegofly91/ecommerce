@@ -1,2 +1,2 @@
 # ecommerce
-ecommerce con graphql
+ecommerce con graphql mysql  sequelize  react apollo
