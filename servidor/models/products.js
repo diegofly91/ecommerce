@@ -1,17 +1,16 @@
 import {Sequelize } from 'sequelize';
 import {sequelize } from "../data/db";
 
+const Op = Sequelize.Op 
 
 const Products = sequelize.define('productos', {
       id: {type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true},
       nombre: { type: Sequelize.STRING ,  allowNull: false  },
-      ruta: { type: Sequelize.STRING ,  allowNull: false  },
+      ruta: { type: Sequelize.STRING ,  allowNull: true  },
       precio: { type: Sequelize.FLOAT   ,allowNull: false },
       id_categoria: { type: Sequelize.INTEGER  ,allowNull: false  },
       id_tipo: { type: Sequelize.INTEGER  ,allowNull: false  },
       nuevo : { type: Sequelize.INTEGER   ,allowNull: false },
-      peso : { type: Sequelize.FLOAT   ,allowNull: false },
-      entrega : { type: Sequelize.INTEGER    ,allowNull: false},
       cantidad : { type: Sequelize.INTEGER    ,allowNull: false},
       id_genero : { type: Sequelize.INTEGER   ,allowNull: false },
       fecha: { type: Sequelize.DATE  ,allowNull: false  },
@@ -59,4 +58,4 @@ const ImageProduct = sequelize.define('imagenes_producto', {
 //       Products.belongsTo(models.ImageProduct);
 //    };
 
- export { Products, Category, ImageProduct }; 
+ export { Products, Category, ImageProduct, Op }; 

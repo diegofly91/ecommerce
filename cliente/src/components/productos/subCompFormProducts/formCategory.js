@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import {CATEGORYS_QUERY} from '../../queries';
+import {CATEGORYS_QUERY} from '../../../queries';
 import { Query } from 'react-apollo';
 
 export class FormCategory extends Component {
@@ -10,7 +10,7 @@ export class FormCategory extends Component {
      leerCategoria = (id_product, categorys) => {
             let cate;
             categorys.map(item =>{
-                            if(item.id == id_product) {
+                            if(item.id === Number(id_product)) {
                                 cate = item;
                             }
                     
@@ -18,7 +18,7 @@ export class FormCategory extends Component {
             this.state.info_categor = cate; 
      }
      detallesFinal = () => {
-        return this.state.id_product;
+        return  Number(this.state.id_product);
     }
      render() {
        const { id_product } = this.state;
@@ -91,7 +91,7 @@ export class FormCategory extends Component {
                                                     {item.nombre}
                                                 </option>
                                                 :
-                                                    item.id_categoria == this.state.id_product
+                                                    item.id_categoria === Number(this.state.id_product)
                                                     ? 
                                                     <option 
                                                         value={item.id} 

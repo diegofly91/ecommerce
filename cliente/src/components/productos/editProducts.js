@@ -1,8 +1,10 @@
 import React, { Component, Fragment } from 'react';
-import {PRODUCTO_QUERY} from '../queries/index';
-import { Query } from 'react-apollo';
+import {PRODUCTO_QUERY} from '../../queries/index';
+import { Query, Mutation } from 'react-apollo';
+import {EDIT_PRODUCT} from '../../mutations'
 
-import FormProduct   from '../components/formProduct';
+
+import FormProduct   from './formProduct';
 
 
 export class editProducts extends Component {
@@ -12,11 +14,14 @@ export class editProducts extends Component {
         return (
             <Fragment>
                 <Query query={PRODUCTO_QUERY} variables={{ruta}}>
-                      {({loading, error, data}) =>{
+                      {({loading, error, data, refetch}) =>{
                           if(loading) return "Cargando";
                           if(error) return `Error ${error}`;
                           return ( 
-                              <FormProduct product={data.product} />
+                             <Fragment>
+                                         <FormProduct product={data.product} refetch={refetch} />
+                             </Fragment> 
+                            
                           );
                       }}
                 </Query>

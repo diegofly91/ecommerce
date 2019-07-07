@@ -9,5 +9,26 @@ const UPLOAD_FILE =  gql`
                orden
             }
     }  
-`;   
-export { UPLOAD_FILE }
+`;
+
+const EDIT_PRODUCT = gql`
+   mutation editProduct($input: productInput ){
+        editProduct(input: $input)
+   }`;
+
+const NEW_PRODUCT = gql`
+   mutation newProduct($input: newProductInput ){
+        newProduct(input: $input){
+            ruta
+        }
+}`;
+
+const AUTHENTICATION_USER = gql`
+    mutation athenticationUser($mail: String!, $passw: String!){
+        athenticationUser(mail: $mail, passw:$passw){
+            token
+        }
+    }
+`;
+
+export { UPLOAD_FILE, EDIT_PRODUCT, NEW_PRODUCT, AUTHENTICATION_USER }

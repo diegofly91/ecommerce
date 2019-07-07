@@ -7,7 +7,8 @@ const User = sequelize.define('usuarios', {
     nombre: Sequelize.STRING,
     apellido: Sequelize.STRING,
     tipoUsuarioId: {type: Sequelize.INTEGER},
-    passw: Sequelize.STRING,
+    passw: { type: Sequelize.STRING,allowNull:false},
+    mail: { type:Sequelize.STRING, allowNull: false}, 
     telefono: Sequelize.INTEGER,
     identificacion: Sequelize.INTEGER,
     fecha: Sequelize.DATE
@@ -15,8 +16,8 @@ const User = sequelize.define('usuarios', {
      timestamps: false
   },{
      freezeTableName: true,
-  }
- );
+});
+
 
  const TypoUsers = sequelize.define('tipo_usuarios', {
     id: {type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true},

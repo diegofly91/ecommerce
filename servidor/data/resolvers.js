@@ -2,13 +2,25 @@ import fs from 'fs'
 import mkdirp from 'mkdirp'
 import shortid from 'shortid'
 import {sequelize } from "../data/db";
+import bcrypt from 'bcryptjs'
 
 
 import { User, TypoUsers } from "../models/user";
-import { Products, Category, ImageProduct } from "../models/products";
+import { Products, Category, ImageProduct, Op } from "../models/products";
+
+//generar token
+
+import dotenv from 'dotenv'
+dotenv.config({path:'variables.env'});
+import jwt from 'jsonwebtoken';
+
+
+const createToken = (mailUsuario, secreto, expiresIn) => {
+    const {mail} = mailUsuario;
+    return jwt.sign({mail}, secreto, {expiresIn});
+}
 
 const UPLOAD_DIR = '/productosimg'
-
 mkdirp.sync(UPLOAD_DIR)
 
 const storeFS = ({ stream, filename }) => {
@@ -29,23 +41,75 @@ const storeFS = ({ stream, filename }) => {
   }
 
   const processUpload = async (req) => {
+        const {id_producto, file} = req;
+        const { createReadStream, filename, mimetype } = await file
+        if(mimetype === "image/jpg" || mimetype === "image/png" || mimetype === "image/jpeg" ){
+                const stream = createReadStream()
+                const { path } = await storeFS({ stream, filename })
+                const ultImag =  await ImageProduct.findAll({attributes: [
+                                                                        [sequelize.fn('MAX', sequelize.col('orden')),'max']
+                                                                        ], raw: true,
+                                                                        where:{id_producto}
+                                                        });
+                var orden = 1;
+                (ultImag[0] !== null) ? orden= ultImag[0].max +1 : '' 
+                const newImg= await ImageProduct
+                                                .build({ id_producto, imagen: path, orden})
+                                                .save()
+                return newImg.dataValues                                
+        }                                        
+  }
 
-    const {id_producto, file} = req;
-    const { createReadStream, filename } = await file
-    const stream = createReadStream()
-    const { path } = await storeFS({ stream, filename })
-    const ultImag =  await ImageProduct.findAll({attributes: [
-                                                             [sequelize.fn('MAX', sequelize.col('orden')),'max']
-                                                             ], raw: true,
-                                                             where:{id_producto}
-                                               });
-    var orden = 1;
-    (ultImag[0] !== null) ? orden= ultImag[0].max +1 : '' 
-    const newImg= await ImageProduct
-                                    .build({ id_producto, imagen: path, orden})
-                                    .save()
-    return newImg.dataValues
-   
+  const createHash = async (passw) => {  
+       /*const neww = await bcrypt.genSalt(10, (err, salt) => {
+                if(err) return err
+                bcrypt.hash(passw, salt, (err, hash)=>{
+                    if(err) return err
+                    console.log("sjjasHSasjAJHSJajhs::::",hash)
+                   return hash
+                })
+        })*/
+         passw = await  bcrypt.hashSync(passw, 10, (err, hash)=>{
+                if(err) return err
+               return hash
+            })
+            return passw
+};
+
+  const processNewProduct = async (input) => {
+           const fecha = new Date();
+           const { nombre, precio,titulo1, detalles, descripcion, vistas, cantidad, id_categoria, id_tipo, id_genero } = input;
+           const ruta = await Products.create({ nuevo: 1,fecha,nombre, 
+                                                precio, titulo1, detalles, descripcion, vistas, 
+                                                cantidad, id_categoria, id_tipo, id_genero }).
+                                                then(task => {
+                                                const id = task.dataValues.id;
+                                                const ruta =  nombre.toLowerCase().replace(/[ñáéíóúÁÉÍÓÚ ]/g, "-")+"-"+id;
+                                                Products.update({ruta}, {where:{id}})
+                                                return  ruta ;
+        })
+        return { ruta };
+
+  }
+  const processEditProduct = async (input) => {
+          const { nombre, precio, titulo1, detalles, descripcion, vistas, cantidad, id_categoria, id_tipo, id_genero, id } = input;
+          const ruta =  nombre.toLowerCase().replace(/[ñáéíóúÁÉÍÓÚ ]/g, "-")+"-"+id;
+          await Products.update({  nombre, precio, titulo1, descripcion, detalles,
+                                    vistas, cantidad, id_categoria, id_tipo, id_genero, ruta}, 
+                                {where:{id}})
+          return true
+  }
+  const processNewUser = async (input) => {
+      const { nombre, apellido, telefono, passw, identificacion, tipoUsuarioId, mail} = await input;
+      const existMail = await User.findAll({raw: true,where:{mail}});
+      if(existMail.length > 0){
+          throw new Error('El correo ya existe');
+      }
+      const passwh = await createHash(passw);
+      const resp = User.create({nombre,apellido,telefono,passw: passwh, identificacion,tipoUsuarioId,mail}).then(task => {
+         return task.dataValues;
+      })
+      return resp;
   }
 
 export const resolvers = {
@@ -83,9 +147,31 @@ export const resolvers = {
          }, 
          category : async() =>{
             return await Category.findAll({raw: true})
+         },
+         obtenerUsuario: (root,arg,{usuarioActual}) => {
+             if(!usuarioActual){
+                 return null
+             }
+             console.log(usuarioActual)
+             //obtener el usuario actual del request JWT
+             const usuario = User.findOne({raw:true, where:{mail: usuarioActual.mail}})
+             return usuario
          }
     },
     Mutation: {
-       singleUpload: async(obj, { req }) =>  await  processUpload(req)
+       singleUpload: async(root, { req }) =>  await  processUpload(req),
+       editProduct: async (root, { input }) => await processEditProduct(input),
+       newProduct: async (root,{ input }) => await processNewProduct(input),
+       newUser: async (root,{ input }) => await processNewUser(input),
+       athenticationUser: async(root,{mail, passw}) =>{
+           const mailUsuario = await User.findOne({raw: true,where:{mail}});
+           if(!mailUsuario)  throw new Error('el usuario no existe');
+           if(mailUsuario.tipoUsuarioId !== 1) throw new Error('el usuario no tiene permiso para este');
+           const passwCorrect = await bcrypt.compare(passw, mailUsuario.passw);
+           if(!passwCorrect) throw new Error('contraseña incorrecta');
+           return { 
+               token: createToken(mailUsuario,process.env.SECRETO,'1hr')
+           }
+       }
       },
 }

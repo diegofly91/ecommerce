@@ -57,6 +57,13 @@ const PRODUCTO_QUERY =  gql`
                   }
             }
 `;
+const USUARIO_ACTUAL = gql`
+     query obtenerUsuario {
+           obtenerUsuario{
+                 mail
+           }
+     }
 
+`;
 
-export { USUARIOS_QUERY, PRODUCTOS_QUERY, PRODUCTO_QUERY, CATEGORYS_QUERY}
+export { USUARIOS_QUERY, PRODUCTOS_QUERY, PRODUCTO_QUERY, CATEGORYS_QUERY, USUARIO_ACTUAL}

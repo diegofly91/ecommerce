@@ -3,7 +3,7 @@ import { Query } from 'react-apollo';
 import { Link } from 'react-router-dom';
 import { format } from 'timeago.js';
 
-import { USUARIOS_QUERY } from '../queries'
+import { USUARIOS_QUERY } from '../../queries'
 
 const Usuarios = () =>(
   <Query query={USUARIOS_QUERY}>
