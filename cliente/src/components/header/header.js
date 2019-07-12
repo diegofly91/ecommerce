@@ -1,8 +1,8 @@
 import React, {Fragment} from 'react';
 import { Link } from 'react-router-dom';
+import CerrarSession from '../layout/cerrarSesion'
 
 const Headers = ({session}) =>{
-    console.log(session)
     let barra = (session.obtenerUsuario)? <NavegationAuthentication/> : <NavegationNoAuthentication /> ;
     
     return (
@@ -38,7 +38,7 @@ const NavegationAuthentication = () => (
                                data-toggle="dropdown" 
                                aria-haspopup="true" 
                                aria-expanded="false">
-                                     productos
+                                     Productos
                             </div>
                             <div className="dropdown-menu text-white" aria-labelledby="navbarDropdown">
                                 <Link to="/productos" className="btn dropdown-item text-right">Ver todos</Link>
@@ -49,6 +49,9 @@ const NavegationAuthentication = () => (
                     </li>
                     <li className="nav-item active ml-3">
                         <Link to="/pedidos" className="btn btn-dark text-white">Pedidos</Link>
+                    </li>
+                    <li>
+                        <CerrarSession />
                     </li>
                 </ul>
             </div>

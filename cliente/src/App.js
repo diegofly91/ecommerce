@@ -1,57 +1,34 @@
 import React, { Fragment } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
-
-
-//import Components
 import Usuarios from './components/usuarios/Usuarios'
 import Headers from './components/header/header'
 import verUsuario from './components/usuarios/verUsuario'
 import products from './components/productos/products'
 import editProducts from './components/productos/editProducts';
 import newProducts from './components/productos/newProducts';
-import Login from './components/productos/login'
-//import { async } from 'q';
-
+import Login from './components/Auth/login'
 import Session from './components/Session'
 
-
-
-// const users = new ApolloClient({
-//   uri: "http://localhost:5000/graphql",
-//   cache: new InMemoryCache({
-//   addTypename: false
-//   }),
-//   onError: ({networkError, graphQLErrors}) => {
-//     console.log('graphQLErrors', graphQLErrors);
-//     console.log('networkError', networkError);
-//   }
-// });
+import PrivateRoute from './components/PrivateRoute'
 
 const App = ({refetch, session}) => {
   const { obtenerUsuario } = session;
- // console.log("refech",refetch)
-  let mensage;
-  console.log("app",session)
-  if(window.location.pathname !== "/login"){
-     mensage = (!obtenerUsuario) ? <Redirect to="/login" />: 'Bienvenido' ;
-  }else{
-     mensage = "holamundo"
-  }
-  return(
+  console.log(obtenerUsuario)
+    return(
       <Router>
           <Fragment>
                       <Headers session={session}/>
-                      <div className="container">
-                        <p className="text-right">{mensage}</p> 
+                      <div className="container"> 
                          <Switch>
-                             <Route exact path="/login" render={ () => <Login refetch={refetch} />} />
-                             <Route exact path="/usuarios" component={Usuarios} />
-                             <Route exact path="/usuario/ver/:id" component={verUsuario} />
-                             <Route exact path="/productos" component={products} />
-                             <Route exact path="/producto/editar/:ruta" component={editProducts} />
-                             <Route exact path="/producto/nuevo" component={newProducts} />
+                             <Route exact path="/login" usuarioAutenticado={obtenerUsuario} render={ () => <Login refetch={refetch} />} /> 
+                             <PrivateRoute exact path="/usuarios" usuarioAutenticado={obtenerUsuario} component={Usuarios} />
+                             <PrivateRoute exact path="/usuario/ver/:id" usuarioAutenticado={obtenerUsuario}  component={verUsuario} />
+                             <PrivateRoute exact path="/productos" usuarioAutenticado={obtenerUsuario} component={products} />
+                             <PrivateRoute exact path="/producto/editar/:ruta" usuarioAutenticado={obtenerUsuario} component={editProducts} />
+                             <PrivateRoute exact path="/producto/nuevo" usuarioAutenticado={obtenerUsuario} component={newProducts} />
+                             <PrivateRoute exact path="/" usuarioAutenticado={obtenerUsuario} component={Login} />
+                             <PrivateRoute path="*" component={Login} />
                          </Switch> 
                       </div> 
           </Fragment> 

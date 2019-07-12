@@ -1,4 +1,4 @@
-import React, { Component,Fragment } from 'react'
+import React, { Component } from 'react'
 import {withRouter} from 'react-router-dom'
 import { format } from 'timeago.js'
 import  FormDetails  from './subCompFormProducts/formDetails';
@@ -54,8 +54,8 @@ class FormProduct extends Component {
            }; 
 
         return (
-            <Mutation  mutation={(id!= undefined) ? EDIT_PRODUCT : NEW_PRODUCT} onCompleted={e=>{
-                     if(id != undefined){
+            <Mutation  mutation={(id!== undefined) ? EDIT_PRODUCT : NEW_PRODUCT} onCompleted={e=>{
+                     if(id !== undefined){
                         if (e.editProduct === true) {
                             this.props.refetch().then( () => {
                                 swal("Good job!", "You clicked the button!", "success")

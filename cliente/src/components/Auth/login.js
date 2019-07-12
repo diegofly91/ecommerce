@@ -30,26 +30,26 @@ class Login extends Component {
     iniciarSesion = (e, athenticationUser) => {
         e.preventDefault();
         athenticationUser().then(async ( {data}) => {
-            localStorage.setItem('token', data.athenticationUser.token);
-            this.limpiarState();
-            setTimeout(() => {
-                this.props.history('/usuarios')
-            }, 500);
+            console.log(data)
+            if(data.athenticationUser.token){
+                // Guardar el token en local
+                localStorage.setItem('token', data.athenticationUser.token);
+                // refresh
+                await this.props.refetch()
+                this.limpiarState();
+                //redirigir a la pag usuarios
+                this.props.history.push('/usuarios')
+            }
         })
      }
 
      validarForm = () => {
         const {mail, passw} = this.state;
-
         const noValido = !mail || !passw;
-
-        console.log(noValido);
         return noValido;
      }
     render() { 
-
         const {mail, passw} = this.state;
-      
         return ( 
             <Fragment>
                  <h1 className="text-center mb-5">Iniciar Sesión</h1>
@@ -58,17 +58,16 @@ class Login extends Component {
                     <Mutation 
                         mutation={ AUTHENTICATION_USER }
                         variables={{mail, passw}}    
+                        onCompleted={e=> {console.log("funcion",e)}}
                     >
                     {( athenticationUser, {loading, error, data}) => {
-
                         return (
                             
                             <form 
                                 onSubmit={ e => this.iniciarSesion(e, athenticationUser) } 
                                 className="col-md-8"
                             >
-
-                            {error && <Error error={error} />}
+                            {error && <Error error={error} />} 
                             
 
                             <div className="form-group">
@@ -110,6 +109,7 @@ class Login extends Component {
                 </div>
             </Fragment>
         );
+        
     }
 }
  
