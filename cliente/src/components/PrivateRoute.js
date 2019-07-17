@@ -1,14 +1,12 @@
 import React from 'react';
 import {Redirect, Route} from 'react-router-dom'
 
-const PrivateRoute = ({component: Component,usuarioAutenticado, ...rest}) => {
-           console.log(usuarioAutenticado)
+const PrivateRoute = ({component: Component,usuarioAutenticado,refetch, ...rest}) => {
+	refetch();
 	return(
 		<Route {...rest} render={props => (
 			usuarioAutenticado ? (
 				<Component infoUsuario={usuarioAutenticado} {...props} />
-				// 	{props.children}
-				// </Component>
 			) : (
 				<Redirect to={{
 					pathname: '/login',

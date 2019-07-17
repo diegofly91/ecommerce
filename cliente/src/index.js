@@ -17,12 +17,12 @@ const direct = "http://localhost/ecommerce-graphQL/servidor";
 
 
 const errorLink = onError(({ graphQLErrors,networkError }) => {
-  // console.log('graphQLErrors', graphQLErrors);
-  // console.log('networkLErrors', networkError);
+  console.log('graphQLErrors', graphQLErrors);
+  console.log('networkLErrors', networkError);
 });
 
 const authLink = setContext(async(_, { headers }) => {
- const token = await localStorage.getItem('token');
+const token = await localStorage.getItem('token');
 return {
     headers: {
       ...headers,

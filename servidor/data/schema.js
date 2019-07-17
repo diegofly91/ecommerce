@@ -61,6 +61,7 @@ const typeDefs = gql`
         ruta: String!
         fecha: String
         id_categoria: Int
+        image: String
     }
     
     """ Input devuelve la ruta del nuevo producto gusradado """
@@ -73,8 +74,9 @@ const typeDefs = gql`
         user (id : Int!) : User
         users: [User]
         TypeUsers : [TypoUsers]
-        products: [Products]
+        products(limit: Int, offset: Int ): [Products]
         product (ruta: String!): Products
+        countProducts : String
         imageProduct : [ImageProduct]
         category: [Category]
         obtenerUsuario: Email
@@ -127,6 +129,7 @@ const typeDefs = gql`
     """ Mutation para subir un archivo"""
     type Mutation {
          singleUpload(req: UploadFile!): ImageProduct!
+         deleteImgProduct(id: Int!) : String!
          editProduct(input: productInput): Boolean!
          newProduct(input: newProductInput): newRutaProduct!
          newUser(input: newUserInput): User!

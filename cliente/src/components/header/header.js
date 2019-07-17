@@ -4,7 +4,6 @@ import CerrarSession from '../layout/cerrarSesion'
 
 const Headers = ({session}) =>{
     let barra = (session.obtenerUsuario)? <NavegationAuthentication/> : <NavegationNoAuthentication /> ;
-    
     return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between d-flex mb-5">
         <div className="container">
@@ -44,6 +43,7 @@ const NavegationAuthentication = () => (
                                 <Link to="/productos" className="btn dropdown-item text-right">Ver todos</Link>
                                 <Link to="/producto/nuevo" className="btn dropdown-item text-right">Agregar</Link>
                                 <Link to="/productos" className="btn dropdown-item text-right">Ofertas</Link>
+                                <Link to="/categorias" className="btn dropdown-item text-right">Categorias</Link>
                             </div>
                        
                     </li>

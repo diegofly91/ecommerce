@@ -34,6 +34,7 @@ class FormProduct extends Component {
         return this.state.product;
     } 
     render() {
+        
         const { nombre, 
                 ruta, 
                 fecha, 
@@ -244,7 +245,7 @@ class FormProduct extends Component {
                             </div>
                         </form> 
                         <div  className="col-md-4 p-0">
-                             <FormImage image={image}  id={id} />
+                             <FormImage image={image}  id={id} refetch={this.props.refetch} />
                         </div>
                   </div>
                 ) : newProduct =>(

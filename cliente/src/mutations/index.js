@@ -31,4 +31,10 @@ const AUTHENTICATION_USER = gql`
     }
 `;
 
-export { UPLOAD_FILE, EDIT_PRODUCT, NEW_PRODUCT, AUTHENTICATION_USER }
+const REMOVE_IMG_PRPDUCT = gql`
+   mutation deleteImgProduct( $id: Int!  ){
+                        deleteImgProduct(id: $id)
+    }
+`;
+
+export { UPLOAD_FILE, EDIT_PRODUCT, NEW_PRODUCT, AUTHENTICATION_USER, REMOVE_IMG_PRPDUCT }

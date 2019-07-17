@@ -31,7 +31,7 @@ const storeFS = ({ stream, filename }) => {
         .on('error', error => {
           if (stream.truncated)
             // Delete the truncated file.
-            fs.unlinkSync(path)
+            fs.unlinkSync("."+path)
           reject(error)
         })
         .pipe(fs.createWriteStream("."+path))
@@ -61,14 +61,6 @@ const storeFS = ({ stream, filename }) => {
   }
 
   const createHash = async (passw) => {  
-       /*const neww = await bcrypt.genSalt(10, (err, salt) => {
-                if(err) return err
-                bcrypt.hash(passw, salt, (err, hash)=>{
-                    if(err) return err
-                    console.log("sjjasHSasjAJHSJajhs::::",hash)
-                   return hash
-                })
-        })*/
          passw = await  bcrypt.hashSync(passw, 10, (err, hash)=>{
                 if(err) return err
                return hash
@@ -129,14 +121,17 @@ export const resolvers = {
         }
     },
     Query: {
-        products: async () =>{
-            return await Products.findAll({raw: true})
+        products: async (root,{limit, offset}) =>{
+            return await Products.findAll({raw: true, limit, offset})
         },
         product: async (root, { ruta }) =>{
-
            return await Products.findOne({raw: true, where : {ruta}});
          },
-        user : async(root,{ id })=>{
+         countProducts: async (root) => {
+             return await Products.count({});
+
+         },
+         user : async(root,{ id })=>{
             return await User.findOne({raw: true, where:{id}})
          },
          users : async()=>{
@@ -152,7 +147,6 @@ export const resolvers = {
              if(!usuarioActual){
                  return null
              }
-             console.log(usuarioActual)
              //obtener el usuario actual del request JWT
              const usuario = User.findOne({raw:true, where:{mail: usuarioActual.mail}})
              return usuario
@@ -160,6 +154,16 @@ export const resolvers = {
     },
     Mutation: {
        singleUpload: async(root, { req }) =>  await  processUpload(req),
+       deleteImgProduct: async(root, {id} ) => {
+            const img = await ImageProduct.findOne({raw:true,where:{id}})
+            const {imagen} = img;
+            console.log(imagen)
+            fs.unlinkSync("."+imagen, async (err)=>{
+                if(err) throw new Error("no se pude eliminar el archivo")
+            });
+            const resp = await ImageProduct.destroy({ where:{ id }})
+            return "se ha eliminado la imagen satisfactoriamente"
+       },
        editProduct: async (root, { input }) => await processEditProduct(input),
        newProduct: async (root,{ input }) => await processNewProduct(input),
        newUser: async (root,{ input }) => await processNewUser(input),
@@ -170,7 +174,7 @@ export const resolvers = {
            const passwCorrect = await bcrypt.compare(passw, mailUsuario.passw);
            if(!passwCorrect) throw new Error('contraseña incorrecta');
            return { 
-               token: createToken(mailUsuario,process.env.SECRETO,'1hr')
+               token: createToken(mailUsuario,process.env.SECRETO,'2hr')
            }
        }
       },

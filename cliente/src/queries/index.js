@@ -12,25 +12,31 @@ const USUARIOS_QUERY = gql`{
       }
 }`;
 
-const PRODUCTOS_QUERY =  gql`{
-      products{
-            id 
-            nombre
-            precio
-            ruta
-            fecha
-            image{
-                  imagen
-                  orden
-                 }
-      }
-}`;
+const PRODUCTOS_QUERY =  gql`
+  query products($limit: Int, $offset: Int ){
+                  products(limit:$limit, offset:$offset){
+                        id 
+                        nombre
+                        precio
+                        ruta
+                        fecha
+                        image{
+                              imagen
+                              orden
+                        }
+                  }
+                  countProducts
+  }
+`;
 
 const CATEGORYS_QUERY =  gql`{
      category{
             id
             nombre
             id_categoria
+            image
+            fecha
+            ruta
        }
 }`;
 

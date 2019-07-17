@@ -25,8 +25,7 @@ const server = new ApolloServer({
                                              //verificamos el token
                                              const usuarioActual = await jwt.verify(token,process.env.SECRETO)
                                              //agregamos el mail al request
-                                             console.log(usuarioActual)
-                                             req.mail = usuarioActual;
+                                             req.usuarioActual = usuarioActual;
                                              return { usuarioActual }
                                          } catch (err) {
                                              console.error(err)

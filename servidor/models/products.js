@@ -30,7 +30,8 @@ const Products = sequelize.define('productos', {
          nombre: { type: Sequelize.STRING ,  allowNull: false  },
          ruta: { type: Sequelize.STRING ,  allowNull: false  },
          FECHA: { type: Sequelize.DATE   ,allowNull: false },
-         id_categoria: { type: Sequelize.INTEGER  ,allowNull: false  }
+         id_categoria: { type: Sequelize.INTEGER  ,allowNull: false  },
+         image:  {type: Sequelize.STRING ,  allowNull: true  },
       }, {
          timestamps: false
       },{
