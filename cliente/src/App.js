@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
+import Home from './components/home/home'
 import Usuarios from './components/usuarios/Usuarios'
 import Headers from './components/header/header'
 import verUsuario from './components/usuarios/verUsuario'
@@ -10,9 +11,11 @@ import newProducts from './components/productos/newProducts';
 import Login from './components/Auth/login'
 import Session from './components/Session'
 import Market from './components/makers/Market'
+import EditCategory from './components/categoria/editCategory'
+import NewCategory from './components/categoria/newCategory'
 
 import PrivateRoute from './components/PrivateRoute'
-import Categorys from './components/productos/categorias';
+import Categorys from './components/categoria/category';
 
 const App = ({refetch, session}) => {
   const { obtenerUsuario } = session;
@@ -29,8 +32,9 @@ const App = ({refetch, session}) => {
                              <PrivateRoute exact path="/productos" refetch={refetch}  usuarioAutenticado={obtenerUsuario} component={products} />
                              <PrivateRoute exact path="/producto/editar/:ruta" refetch={refetch}  usuarioAutenticado={obtenerUsuario} component={editProducts} />
                              <PrivateRoute exact path="/producto/nuevo" refetch={refetch}  usuarioAutenticado={obtenerUsuario} component={newProducts} />
-                             <PrivateRoute exact path="/" refetch={refetch}  usuarioAutenticado={obtenerUsuario} component={Login} />
-                             {/* <PrivateRoute path="*" component={Login} /> */}
+                             <PrivateRoute exact path="/categoria/editar/:ruta" refetch={refetch}  usuarioAutenticado={obtenerUsuario} component={EditCategory} />
+                             <PrivateRoute exact path="/categoria/nueva" refetch={refetch}  usuarioAutenticado={obtenerUsuario} component={NewCategory} />
+                             <PrivateRoute exact path="/" refetch={refetch}  usuarioAutenticado={obtenerUsuario} component={Home} />
                              <Route exact path="/Tienda" component={Market} />
                          </Switch> 
                       </div> 

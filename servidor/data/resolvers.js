@@ -120,6 +120,12 @@ export const resolvers = {
             return await ImageProduct.findAll({raw: true,where:{id_producto: product.id}});
         }
     },
+    Category: {
+        async subcategory(category){
+            console.log(category)
+            return await Category.findAll({raw: true,where:{id_categoria: category.id}});
+        }
+    },
     Query: {
         products: async (root,{limit, offset}) =>{
             return await Products.findAll({raw: true, limit, offset})
@@ -140,9 +146,16 @@ export const resolvers = {
          TypeUsers : async() =>{
              return await TypoUsers.findAll({raw: true})
          }, 
-         category : async() =>{
-            return await Category.findAll({raw: true})
+         categorys : async(root, { id_categoria }) =>{
+            if( id_categoria || id_categoria === null ){
+                return await Category.findAll({raw: true, where:{ id_categoria: id_categoria }})
+            }else{
+                return await Category.findAll({raw: true})
+            }
          },
+         category : async(root, { id }) =>{
+             return await Category.findOne({raw: true, where: {id}})
+        },
          obtenerUsuario: (root,arg,{usuarioActual}) => {
              if(!usuarioActual){
                  return null

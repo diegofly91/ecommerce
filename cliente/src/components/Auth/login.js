@@ -38,7 +38,7 @@ class Login extends Component {
                 await this.props.refetch()
                 this.limpiarState();
                 //redirigir a la pag usuarios
-                this.props.history.push('/usuarios')
+                this.props.history.push('/')
             }
         })
      }

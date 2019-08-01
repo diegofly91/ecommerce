@@ -29,16 +29,41 @@ const PRODUCTOS_QUERY =  gql`
   }
 `;
 
-const CATEGORYS_QUERY =  gql`{
-     category{
-            id
-            nombre
-            id_categoria
-            image
-            fecha
-            ruta
+const CATEGORYS_QUERY =  gql`
+       query categorys($id_categoria : Int){
+            categorys(id_categoria: $id_categoria ){
+                        id
+                        nombre
+                        id_categoria
+                        image
+                        fecha
+                        ruta
+                        descripcion
+                        activo
+                  }
        }
-}`;
+`;
+
+const CATEGORY_QUERY =  gql`
+       query category($id : Int){
+            category(id: $id ){
+                        id
+                        nombre
+                        id_categoria
+                        image
+                        fecha
+                        ruta
+                        descripcion
+                        activo
+                        subcategory{
+                                    id
+                                    nombre
+                                    ruta
+                              }
+                  }
+       }
+`;
+
 
 const PRODUCTO_QUERY =  gql`
       query bringProduct($ruta : String!){
@@ -59,6 +84,7 @@ const PRODUCTO_QUERY =  gql`
                   image { 
                               imagen
                               orden
+                              id
                         }
                   }
             }
@@ -72,4 +98,4 @@ const USUARIO_ACTUAL = gql`
 
 `;
 
-export { USUARIOS_QUERY, PRODUCTOS_QUERY, PRODUCTO_QUERY, CATEGORYS_QUERY, USUARIO_ACTUAL}
+export { USUARIOS_QUERY, PRODUCTOS_QUERY, PRODUCTO_QUERY, CATEGORYS_QUERY, USUARIO_ACTUAL, CATEGORY_QUERY }

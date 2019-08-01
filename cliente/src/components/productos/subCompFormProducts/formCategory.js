@@ -31,7 +31,7 @@ export class FormCategory extends Component {
                       {({loading, error, data}) =>{
                           if(loading) return "Cargando";
                           if(error) return `Error ${error}`;
-                          this.leerCategoria(id_product, data.category)
+                          this.leerCategoria(id_product, data.categorys)
                           return ( 
                                     <div className="ml-2 mr-2" style={divStyle}>
                                         <h4 className="text-primary ml-2">Categoria:</h4>
@@ -49,7 +49,7 @@ export class FormCategory extends Component {
                                                         }
                                                 }
                                         >
-                                                {data.category.map( item => {
+                                                {data.categorys.map( item => {
                                                     return item.id_categoria === null 
                                                     ?
                                                     <option 
@@ -80,7 +80,7 @@ export class FormCategory extends Component {
                                             ? <option value=""></option>
                                             : ''
                                             } 
-                                            {data.category.map( item => {
+                                            {data.categorys.map( item => {
                                                 return item.id_categoria === this.state.info_categor.id_categoria && 
                                                     this.state.info_categor.id_categoria !== null
                                                 ?

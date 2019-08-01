@@ -15,7 +15,7 @@ class FormProduct extends Component {
     
     state = { 
         product: this.props.product,
-        details: (this.props.product.detalles !== "" ) ? JSON.parse(this.props.product.detalles): [],
+        details: (this.props.product.detalles !== ""  && this.props.product.detalles !== "[]" ) ? JSON.parse(this.props.product.detalles): [],
     } 
 
     info = async (e) =>{
@@ -80,10 +80,11 @@ class FormProduct extends Component {
                         <form onSubmit={async (e)=>{
                             e.preventDefault(); 
                             await this.info();
-                            const {id,nombre,precio,titulo1,descripcion,detalles,id_tipo,id_genero,id_categoria,cantidad} = this.state.product;
+                            const {id,nombre,precio,titulo1,descripcion,id_tipo,id_genero,id_categoria,cantidad} = this.state.product;
                             if(nombre === "" || precio === "" || id_tipo === "" || id_genero === "" || id_categoria === "" || cantidad === ""){
                                 return swal("Campos Obligatorios!", "Algunos campos Obligatorios No se han llenado!", "error");
                             }
+                            const detalles = (this.state.product.detalles === "[]") ? "" : this.state.product.detalles;
                             const input = {
                                 id,
                                 nombre,
@@ -268,6 +269,7 @@ class FormProduct extends Component {
                                     id_categoria,
                                     cantidad
                                 }
+                                (detalles === "[]") ? detalles = "" : "";
                                 console.log(input);
                                 newProduct({variables: {input}})
                                 

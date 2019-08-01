@@ -43,6 +43,7 @@ const typeDefs = gql`
         id_genero:Int
         cantidad:Int
         image: [ImageProduct]
+        activo: Boolean
     } 
 
     """ Campos de imagenes producto"""
@@ -62,8 +63,22 @@ const typeDefs = gql`
         fecha: String
         id_categoria: Int
         image: String
+        descripcion: String
+        activo: Boolean
+        subcategory: [Subcategory]
     }
     
+    type Subcategory {
+        id: Int!
+        nombre: String!
+        ruta: String!
+        fecha: String
+        id_categoria: Int
+        image: String
+        descripcion: String
+        activo: Boolean
+    }
+
     """ Input devuelve la ruta del nuevo producto gusradado """
      type newRutaProduct {
          ruta: String!
@@ -78,7 +93,8 @@ const typeDefs = gql`
         product (ruta: String!): Products
         countProducts : String
         imageProduct : [ImageProduct]
-        category: [Category]
+        categorys (id_categoria : Int): [Category]
+        category (id: Int): Category
         obtenerUsuario: Email
     }
 

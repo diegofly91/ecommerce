@@ -17,7 +17,8 @@ const Products = sequelize.define('productos', {
       detalles: { type: Sequelize.TEXT   },
       titulo1: { type: Sequelize.TEXT   },
       descripcion: { type: Sequelize.TEXT  },
-      vistas: { type: Sequelize.INTEGER}
+      vistas: { type: Sequelize.INTEGER},
+      activo: { type: Sequelize.BOOLEAN}
    }, {
       timestamps: false
    },{
@@ -32,6 +33,8 @@ const Products = sequelize.define('productos', {
          FECHA: { type: Sequelize.DATE   ,allowNull: false },
          id_categoria: { type: Sequelize.INTEGER  ,allowNull: false  },
          image:  {type: Sequelize.STRING ,  allowNull: true  },
+         descripcion:  {type: Sequelize.TEXT ,  allowNull: true  },
+         activo: {type:Sequelize.BOOLEAN , allowNull: false}
       }, {
          timestamps: false
       },{

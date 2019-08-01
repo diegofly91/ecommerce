@@ -33,7 +33,7 @@ export default class FormImage extends Component {
                        <h4 className="text-primary pr-2"> Imagenes Producto </h4>
                         <Mutation mutation={UPLOAD_FILE} 
                                    onCompleted={ e => { 
-                                       //this.props.refetch();
+                                    this.props.refetch();
                                     this.setState({images: this.state.images.concat([e.singleUpload])});
                                     }}
                         >
@@ -83,9 +83,7 @@ export default class FormImage extends Component {
                                                 icon: "error",
                                             });
                                        }
-
-                                     //this.props.refetch();
-                                    // this.setState({images: this.state.images.concat([e.singleUpload])});
+                                     this.props.refetch();
                                     }}
                                 >
                                     { deleteImgProduct =>( 
