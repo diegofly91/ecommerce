@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import {PRODUCTO_QUERY} from '../../queries/index';
-import { Query, Mutation } from 'react-apollo';
+import { Query } from 'react-apollo';
 
 
 import FormProduct   from './formProduct';

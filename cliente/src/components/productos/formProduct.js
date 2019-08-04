@@ -9,13 +9,18 @@ import swal from 'sweetalert';
 
 import {EDIT_PRODUCT} from '../../mutations'
 import {NEW_PRODUCT } from '../../mutations'
+import { PRODUCTOS_QUERY } from '../../queries'
 
 
 class FormProduct extends Component {
     
     state = { 
         product: this.props.product,
-        details: (this.props.product.detalles !== ""  && this.props.product.detalles !== "[]" ) ? JSON.parse(this.props.product.detalles): [],
+        details: (this.props.product.detalles !== ""  && 
+                  this.props.product.detalles !== "[]" && 
+                  this.props.product.detalles !== null) 
+                  ? JSON.parse(this.props.product.detalles)
+                  : [],
     } 
 
     info = async (e) =>{
@@ -97,7 +102,10 @@ class FormProduct extends Component {
                                 id_categoria,
                                 cantidad
                             }
-                            editProduct({variables: {input}})
+                            editProduct({variables: {input}, refetchQueries:[{
+                                                                    query: PRODUCTOS_QUERY
+                                                             }]
+                                        })
                             
                         }} className={id !== undefined ? 'col-md-8 p-0' :'col-md-12 '} >
                     
@@ -254,10 +262,11 @@ class FormProduct extends Component {
                             <form onSubmit={async (e)=>{
                                 e.preventDefault(); 
                                 await this.info();
-                                const {nombre,precio,titulo1,descripcion,detalles,id_tipo,id_genero,id_categoria,cantidad} = this.state.product;
+                                const {nombre,precio,titulo1,descripcion,id_tipo,id_genero,id_categoria,cantidad} = await this.state.product;
                                 if(nombre === "" || precio === "" || id_tipo === "" || id_genero === "" || id_categoria === "" || cantidad === ""){
                                     return swal("Campos Obligatorios!", "Algunos campos Obligatorios No se han llenado!", "error");
                                 }
+                                let { detalles } = this.state.product
                                 const input = {
                                     nombre,
                                     precio,
@@ -270,8 +279,10 @@ class FormProduct extends Component {
                                     cantidad
                                 }
                                 (detalles === "[]") ? detalles = "" : "";
-                                console.log(input);
-                                newProduct({variables: {input}})
+                                newProduct({variables: {input},refetchQueries:[{
+                                                                                query: PRODUCTOS_QUERY
+                                                                        }]
+                                           })
                                 
                             }} className='col-md-12 '>
                         

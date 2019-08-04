@@ -30,7 +30,6 @@ class Login extends Component {
     iniciarSesion = (e, athenticationUser) => {
         e.preventDefault();
         athenticationUser().then(async ( {data}) => {
-            console.log(data)
             if(data.athenticationUser.token){
                 // Guardar el token en local
                 localStorage.setItem('token', data.athenticationUser.token);

@@ -76,7 +76,7 @@ const storeFS = ({ stream, filename }) => {
                                                 cantidad, id_categoria, id_tipo, id_genero }).
                                                 then(task => {
                                                 const id = task.dataValues.id;
-                                                const ruta =  nombre.toLowerCase().replace(/[ñáéíóúÁÉÍÓÚ ]/g, "-")+"-"+id;
+                                                const ruta =  nombre.toLowerCase().replace(/[^a-z']/g, '-')+"-"+id;
                                                 Products.update({ruta}, {where:{id}})
                                                 return  ruta ;
         })
@@ -90,6 +90,17 @@ const storeFS = ({ stream, filename }) => {
                                     vistas, cantidad, id_categoria, id_tipo, id_genero, ruta}, 
                                 {where:{id}})
           return true
+  }
+  const processNewCategory = async (input) =>{
+      const {nombre, descripcion, id_categoria} = await input;
+      const existCateg = await Category.findOne({raw: true,where:{nombre}});
+      if(existCateg)  throw new Error('la categoria ya existe');
+      const ruta =  nombre.toLowerCase().replace(/[^a-z']/g, '-');
+      const id = await Category.create({ activo: 1,nombre,descripcion,ruta, id_categoria }).
+        then(task => {
+        return  task.dataValues.id;
+      })
+      return id;
   }
   const processNewUser = async (input) => {
       const { nombre, apellido, telefono, passw, identificacion, tipoUsuarioId, mail} = await input;
@@ -187,8 +198,9 @@ export const resolvers = {
            const passwCorrect = await bcrypt.compare(passw, mailUsuario.passw);
            if(!passwCorrect) throw new Error('contraseña incorrecta');
            return { 
-               token: createToken(mailUsuario,process.env.SECRETO,'2hr')
+               token: createToken(mailUsuario,process.env.SECRETO,'4hr')
            }
-       }
+       },
+       newCategory: async(root,{input})=> await processNewCategory(input)
       },
 }

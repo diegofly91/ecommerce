@@ -12,7 +12,7 @@ class Categorys extends Component {
     render(){
         return(
             <Query query={CATEGORYS_QUERY} variables={{id_categoria: null}} >
-                  {({loading, error, data}) =>{
+                  { ({loading, error, data}) =>{
                       if(loading) return "Cargando";
                       if(error) return `Error ${error}`;
                       this.state.categ = data.categorys;
@@ -35,7 +35,7 @@ class Categorys extends Component {
                                                     <span    
                                                        onClick={ e => {
                                                             this.setState({
-                                                                 act: (this.state.act == item.id) ? '': item.id
+                                                                 act: (this.state.act === item.id) ? '': item.id
                                                             })
                                                         } 
                                                         }  
@@ -47,7 +47,7 @@ class Categorys extends Component {
                                                     <Link to={`/categoria/editar/${item.id}`}><Icon  circular name="edit outline" color="blue" className="mr-2" /></Link>
                                                 </List.Header>
                                                 
-                                                 {   this.state.act == item.id ? 
+                                                 {   this.state.act === item.id ? 
                                                      <Box id={item.id} /> 
                                                                 : 
                                                     ''
@@ -59,7 +59,7 @@ class Categorys extends Component {
                                     )}
                                 </List>
                                 <List.Item>
-                                     <Link to={`/categoria/nueva`}>
+                                     <Link to={`/categoria/nueva/0`}>
                                             <Icon 
                                                 name='plus circle' 
                                                 color="black" 
@@ -91,7 +91,7 @@ class Box extends Component {
                 return (
                     <List.List className="mt-2"> 
                             {data.categorys.map( itemS  => {
-                                return id == itemS.id_categoria ?
+                                return id === itemS.id_categoria ?
                                     <List.Item key={itemS.id} className="mt-2">
                                         <List.Icon name='folder' size="large"  color={itemS.activo ? 'blue': 'red'}/>
                                         <List.Content>
@@ -100,12 +100,14 @@ class Box extends Component {
                                     </List.Item> : '';
                             })} 
                             <List.Item className="mt-2">
-                                <Icon 
-                                    name='plus circle' 
-                                    color="black" 
-                                    size="large" 
-                                    style={{cursor:'pointer'}}
-                                />
+                                <Link to={`/categoria/nueva/${id}`}>
+                                    <Icon 
+                                        name='plus circle' 
+                                        color="black" 
+                                        size="large" 
+                                        style={{cursor:'pointer'}}
+                                    />
+                                </Link>
                             </List.Item>
                     </List.List>           
             )}}  

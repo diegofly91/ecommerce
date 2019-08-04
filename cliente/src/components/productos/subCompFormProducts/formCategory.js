@@ -8,14 +8,13 @@ export class FormCategory extends Component {
              info_categor: []
      }
      leerCategoria = (id_product, categorys) => {
-            let cate;
-            categorys.map(item =>{
-                            if(item.id === Number(id_product)) {
-                                cate = item;
-                            }
-                    
-            })
-            this.state.info_categor = cate; 
+         let camp = "";
+         categorys.map(item =>{
+            if(item.id === Number(id_product)) {
+                camp = item
+            }
+         })
+         this.state.info_categor = camp;
      }
      detallesFinal = () => {
         return  Number(this.state.id_product);

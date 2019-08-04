@@ -37,4 +37,10 @@ const REMOVE_IMG_PRPDUCT = gql`
     }
 `;
 
-export { UPLOAD_FILE, EDIT_PRODUCT, NEW_PRODUCT, AUTHENTICATION_USER, REMOVE_IMG_PRPDUCT }
+const NEW_CATEGORY = gql`
+    mutation newCategory($input: categoryInput ){
+        newCategory(input: $input)
+    }
+ `;
+
+export { UPLOAD_FILE, EDIT_PRODUCT, NEW_PRODUCT, AUTHENTICATION_USER, REMOVE_IMG_PRPDUCT, NEW_CATEGORY }

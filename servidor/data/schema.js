@@ -141,6 +141,19 @@ const typeDefs = gql`
         id_genero:Int!
         cantidad:Int!
     }
+   
+    input categoryInput {
+       nombre: String!
+       descripcion: String!
+       image: String
+       id_categoria: Int
+    }
+
+    input UploadFileCateg {
+        id: Int
+        file: Upload!
+    }
+
 
     """ Mutation para subir un archivo"""
     type Mutation {
@@ -150,6 +163,7 @@ const typeDefs = gql`
          newProduct(input: newProductInput): newRutaProduct!
          newUser(input: newUserInput): User!
          athenticationUser(mail: String!, passw:String! ): Token
+         newCategory(input: categoryInput): Int!
     }
     `;
 
