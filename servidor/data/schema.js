@@ -143,10 +143,12 @@ const typeDefs = gql`
     }
    
     input categoryInput {
+       id: Int 
        nombre: String!
        descripcion: String!
-       image: String
+       image: Upload
        id_categoria: Int
+       activo: Boolean
     }
 
     input UploadFileCateg {
@@ -164,6 +166,7 @@ const typeDefs = gql`
          newUser(input: newUserInput): User!
          athenticationUser(mail: String!, passw:String! ): Token
          newCategory(input: categoryInput): Int!
+         editCategory(input: categoryInput): String!
     }
     `;
 

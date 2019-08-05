@@ -20,12 +20,16 @@ const createToken = (mailUsuario, secreto, expiresIn) => {
     return jwt.sign({mail}, secreto, {expiresIn});
 }
 
-const UPLOAD_DIR = '/productosimg'
-mkdirp.sync(UPLOAD_DIR)
+const UPLOAD_DIR_PROD = '/productosimg';
+const UPLOAD_DIR_CATE = '/categoriasImg';
 
-const storeFS = ({ stream, filename }) => {
+mkdirp.sync(UPLOAD_DIR_PROD)
+
+mkdirp.sync(UPLOAD_DIR_CATE)
+
+const storeFS = ({ stream, filename}, directory) => {
     const id = shortid.generate()
-    const path = `${UPLOAD_DIR}/${id}-${filename}`
+    const path = `${directory}/${id}-${filename}`
     return new Promise((resolve, reject) =>
       stream
         .on('error', error => {
@@ -45,7 +49,7 @@ const storeFS = ({ stream, filename }) => {
         const { createReadStream, filename, mimetype } = await file
         if(mimetype === "image/jpg" || mimetype === "image/png" || mimetype === "image/jpeg" ){
                 const stream = createReadStream()
-                const { path } = await storeFS({ stream, filename })
+                const { path } = await storeFS({ stream, filename }, UPLOAD_DIR_PROD)
                 const ultImag =  await ImageProduct.findAll({attributes: [
                                                                         [sequelize.fn('MAX', sequelize.col('orden')),'max']
                                                                         ], raw: true,
@@ -92,15 +96,24 @@ const storeFS = ({ stream, filename }) => {
           return true
   }
   const processNewCategory = async (input) =>{
-      const {nombre, descripcion, id_categoria} = await input;
+      const {nombre, descripcion, id_categoria, image} = await input;
       const existCateg = await Category.findOne({raw: true,where:{nombre}});
       if(existCateg)  throw new Error('la categoria ya existe');
       const ruta =  nombre.toLowerCase().replace(/[^a-z']/g, '-');
-      const id = await Category.create({ activo: 1,nombre,descripcion,ruta, id_categoria }).
+      const { createReadStream, filename, mimetype } = await image;
+      if(mimetype !== "image/jpg" && mimetype !== "image/png" && mimetype !== "image/jpeg" ){
+        throw new Error('el archivo no tiene el formato adecuado');
+       }
+       const stream = createReadStream()
+       const { path } = await storeFS({ stream, filename }, UPLOAD_DIR_CATE)
+       const id = await Category.create({ activo: 1,nombre,descripcion,ruta, id_categoria, image: path }).
         then(task => {
         return  task.dataValues.id;
       })
       return id;
+  }
+  const processEditCategory = async (input) => {
+
   }
   const processNewUser = async (input) => {
       const { nombre, apellido, telefono, passw, identificacion, tipoUsuarioId, mail} = await input;
@@ -185,7 +198,7 @@ export const resolvers = {
             fs.unlinkSync("."+imagen, async (err)=>{
                 if(err) throw new Error("no se pude eliminar el archivo")
             });
-            const resp = await ImageProduct.destroy({ where:{ id }})
+            await ImageProduct.destroy({ where:{ id }})
             return "se ha eliminado la imagen satisfactoriamente"
        },
        editProduct: async (root, { input }) => await processEditProduct(input),
@@ -201,6 +214,7 @@ export const resolvers = {
                token: createToken(mailUsuario,process.env.SECRETO,'4hr')
            }
        },
-       newCategory: async(root,{input})=> await processNewCategory(input)
+       newCategory: async(root,{input})=> await processNewCategory(input),
+       editCategory: async (root,{input}) => await processEditCategory(input)
       },
 }

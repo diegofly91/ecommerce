@@ -15,30 +15,32 @@ class NewCategory extends Component {
             category: {
                         nombre : '',
                         descripcion: '',
+                        image: null,
                         id_categoria: (this.props.match.params.id == 0) ? null : Number(this.props.match.params.id),
             }, 
-        //    id: this.props.match.params.id
     }
 
     sendInfo = async (newCategory) =>{
         const info = await this.childFormCategory.categoryFinal();
+        console.log(info)
         this.setState({
             category:{
                 ...this.state.category,
                 nombre: info.nombre,
-                descripcion: info.descripcion
+                descripcion: info.descripcion,
+                image: info.image
             }
         })
-        const {nombre, descripcion, id_categoria} =  this.state.category;
+        const {nombre, descripcion, id_categoria, image} =  this.state.category;
         if(nombre === "") {
             return swal("Campo Obligatorio!", "Debes llenar el nombre!", "error");
         }
         const input = {
             nombre,
             descripcion, 
-            id_categoria
+            id_categoria,
+            image
         }
-        console.log("subcategoria;;;;",id_categoria)
         newCategory({ variables: { input },
                       refetchQueries:[{
                                        query: CATEGORYS_QUERY, 
