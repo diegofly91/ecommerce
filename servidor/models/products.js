@@ -54,12 +54,34 @@ const ImageProduct = sequelize.define('imagenes_producto', {
       }
 );
 
-// ImageProduct.associate = (models) => {
-//     Products.hasMany(models.Products);
-// };
 
-//    Products.associate = (models) => {
-//       Products.belongsTo(models.ImageProduct);
-//    };
+const Ofertas = sequelize.define('ofertas', {
+   id: {type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true},
+   id_producto: { type: Sequelize.INTEGER ,  allowNull: true  },
+   id_categoria: { type: Sequelize.INTEGER ,  allowNull: true  },
+   descuento: { type: Sequelize.INTEGER, allowNull: false},
+   tipo_descuento: { type: Sequelize.INTEGER   ,allowNull: false },
+   activo: { type: Sequelize.BOOLEAN  , allowNull: false  },
+   fecha_inicio:  { type: Sequelize.DATE   ,allowNull: true },
+   fecha_fin:  { type: Sequelize.DATE   ,allowNull: true },
+   imagen_oferta: {type:Sequelize.BOOLEAN , allowNull: true},
+   fecha: { type: Sequelize.DATE   ,allowNull: true },
+}, {
+   timestamps: false
+},{
+   freezeTableName: true,
+}
+);
 
- export { Products, Category, ImageProduct, Op }; 
+const TypeOferta = sequelize.define('tipo_oferta', {
+   id: {type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true},
+   nombre: Sequelize.STRING,
+ }, {
+   timestamps: false
+ },{
+   freezeTableName: true,
+ }
+);
+
+
+ export { Products, Category, ImageProduct, Op, Ofertas, TypeOferta }; 

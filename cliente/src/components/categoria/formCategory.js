@@ -31,7 +31,7 @@ class FormCategory extends Component {
         return this.state.category;
     }
     render(){
-        const {id, nombre, ruta, fecha, descripcion, id_categoria, image, activo} = this.state.category;
+        const {id, nombre, descripcion, id_categoria, image, activo} = this.state.category;
      return (
          <div className="d-flex flex-wrap"> 
                 <div className="col-md-8 m-0 p-0 mb-2">

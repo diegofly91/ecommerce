@@ -43,4 +43,9 @@ const NEW_CATEGORY = gql`
     }
  `;
 
-export { UPLOAD_FILE, EDIT_PRODUCT, NEW_PRODUCT, AUTHENTICATION_USER, REMOVE_IMG_PRPDUCT, NEW_CATEGORY }
+const EDIT_CATEGORY = gql`
+mutation editCategory($input: categoryInput ){
+    editCategory(input: $input)
+}`;
+
+export { UPLOAD_FILE, EDIT_PRODUCT, NEW_PRODUCT, AUTHENTICATION_USER, REMOVE_IMG_PRPDUCT, NEW_CATEGORY, EDIT_CATEGORY }

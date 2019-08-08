@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { direct } from '../../index';
 import  Dropzone  from 'react-dropzone'
+import {Icon} from 'semantic-ui-react'
 
 class UploadImage extends Component {
          state ={
@@ -43,7 +44,15 @@ class UploadImage extends Component {
                               <section className="">
                               <div className="" {...getRootProps()} >
                                  <input {...getInputProps()} />
-                                 <p className="">Arrastre o clickee para subir la imagene</p>
+                                 <p className="">
+                                       <Icon 
+                                             name='upload' 
+                                             color="black" 
+                                             size="large" 
+                                             style={{cursor:'pointer'}}
+                                          />
+                                     Arrastre o clickee para actualizar la imagen
+                                 </p>
                               </div>
                               </section>
                            )}

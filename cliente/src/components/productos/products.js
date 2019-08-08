@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { format } from 'timeago.js';
 import { direct } from '../../index';
 import Paginator from '../layout/paginator'
+import { Icon } from 'semantic-ui-react'
 
 import { PRODUCTOS_QUERY } from '../../queries'
 
@@ -43,6 +44,17 @@ import { PRODUCTOS_QUERY } from '../../queries'
                 <Fragment >
                     <h2 className="text-center">Listado Productos</h2>
                     <ul className="list-group col-md-10 mx-auto">
+                     <div style={{position:"absolute", top:"-30px",right:"10px", zIndex:"20"}}>
+                        <Link to={`/producto/nuevo`}>
+                              <Icon 
+                                  name='plus circle' 
+                                  color="blue" 
+                                  size="big" 
+                                  style={{cursor:'pointer'}}
+                                  title="agregar producto"
+                                />
+                        </Link>
+                    </div>
                       {data.products.map( item => (
                         <li className="list-group-item" key={item.id}> 
                                   <div className="row justify-content-between align-items-center">

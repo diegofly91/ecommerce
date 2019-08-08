@@ -45,7 +45,7 @@ const CATEGORYS_QUERY =  gql`
 `;
 
 const CATEGORY_QUERY =  gql`
-       query category($id : Int){
+       query category($id : Int!){
             category(id: $id ){
                         id
                         nombre

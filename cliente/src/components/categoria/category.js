@@ -62,9 +62,15 @@ class Categorys extends Component {
                                      <Link to={`/categoria/nueva/0`}>
                                             <Icon 
                                                 name='plus circle' 
-                                                color="black" 
+                                                color="blue" 
                                                 size="big" 
                                                 style={{cursor:'pointer'}}
+                                                data-toggle="tooltip" 
+                                                data-placement="top" 
+                                                title="agregar nueva categoria"
+                                                hoverOn={e => {
+                                                    e.tooltip();
+                                                }}
                                             />
                                     </Link>
                                 </List.Item>

@@ -57,7 +57,7 @@ const typeDefs = gql`
 
     """ Campos de Categoria"""
     type Category {
-        id: Int!
+        id: Int
         nombre: String!
         ruta: String!
         fecha: String
@@ -84,6 +84,25 @@ const typeDefs = gql`
          ruta: String!
      }
 
+     type TypeDescuent {
+        id: Int!
+        nombre: String
+    }
+
+     type Oferta {
+       id: Int !
+       id_producto: Int
+       id_categoria: Int
+       descuento: Int!
+       tipo_descuento: Int!
+       activo: Boolean!
+       fecha_inicio: String
+       fecha_fin: String
+       image: Upload
+       fecha: String
+       typoDescuent: [TypeDescuent]
+    }
+
     """ Query para ver datos de los Users"""
     type Query { 
         user (id : Int!) : User
@@ -94,8 +113,10 @@ const typeDefs = gql`
         countProducts : String
         imageProduct : [ImageProduct]
         categorys (id_categoria : Int): [Category]
-        category (id: Int): Category
+        category (id: Int!): Category
         obtenerUsuario: Email
+        ofertas(limit:Int, Offset:Int):[Oferta]
+        oferta (id: Int!):Oferta
     }
 
     """ Input de los dartos que necesitas para subir una imagen de un producto"""
@@ -143,7 +164,15 @@ const typeDefs = gql`
     }
    
     input categoryInput {
-       id: Int 
+       id: Int !
+       nombre: String!
+       descripcion: String!
+       image: Upload
+       id_categoria: Int
+       activo: Boolean
+    }
+
+    input NewCategoryInput {
        nombre: String!
        descripcion: String!
        image: Upload
@@ -156,6 +185,18 @@ const typeDefs = gql`
         file: Upload!
     }
 
+    input ofertaInput {
+       id: Int !
+       id_producto: Int
+       id_categoria: Int
+       descuento: Int!
+       tipo_descuento: Int!
+       activo: Boolean!
+       fecha_inicio: String
+       fecha_fin: String
+       image: Upload
+       fecha: String
+    }
 
     """ Mutation para subir un archivo"""
     type Mutation {
@@ -165,8 +206,9 @@ const typeDefs = gql`
          newProduct(input: newProductInput): newRutaProduct!
          newUser(input: newUserInput): User!
          athenticationUser(mail: String!, passw:String! ): Token
-         newCategory(input: categoryInput): Int!
+         newCategory(input: NewCategoryInput): Int!
          editCategory(input: categoryInput): String!
+         newOferta(input: ofertaInput): String!
     }
     `;
 

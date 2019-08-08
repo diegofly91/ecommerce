@@ -100,19 +100,41 @@ const storeFS = ({ stream, filename}, directory) => {
       const existCateg = await Category.findOne({raw: true,where:{nombre}});
       if(existCateg)  throw new Error('la categoria ya existe');
       const ruta =  nombre.toLowerCase().replace(/[^a-z']/g, '-');
-      const { createReadStream, filename, mimetype } = await image;
-      if(mimetype !== "image/jpg" && mimetype !== "image/png" && mimetype !== "image/jpeg" ){
-        throw new Error('el archivo no tiene el formato adecuado');
-       }
-       const stream = createReadStream()
-       const { path } = await storeFS({ stream, filename }, UPLOAD_DIR_CATE)
-       const id = await Category.create({ activo: 1,nombre,descripcion,ruta, id_categoria, image: path }).
+      let file='';
+      if(image){
+        const { createReadStream, filename, mimetype } = await image;
+        if(mimetype !== "image/jpg" && mimetype !== "image/png" && mimetype !== "image/jpeg" ){
+          throw new Error('el archivo no tiene el formato adecuado');
+         }
+         const stream = createReadStream()
+         const { path } = await storeFS({ stream, filename }, UPLOAD_DIR_CATE)
+         file = path;
+      }
+     
+       const id = await Category.create({ activo: 1,nombre,descripcion,ruta, id_categoria, image: file }).
         then(task => {
         return  task.dataValues.id;
       })
       return id;
   }
   const processEditCategory = async (input) => {
+    const {id,nombre,activo, descripcion, id_categoria, image} = await input;
+    console.log(typeof(image))
+    const existCateg = await Category.findOne({raw: true,where:{nombre,id:{ [Op.ne]: id}}});
+    if(existCateg)  throw new Error('la categoria ya existe');
+    const ruta =  nombre.toLowerCase().replace(/[^a-z']/g, '-');
+    if(typeof(image) !== "string" ){
+      const { createReadStream, filename, mimetype } = await image;
+      if(mimetype !== "image/jpg" && mimetype !== "image/png" && mimetype !== "image/jpeg" ){
+        throw new Error('el archivo no tiene el formato adecuado');
+       }
+       const stream = createReadStream()
+       const { path } = await storeFS({ stream, filename }, UPLOAD_DIR_CATE)
+       await Category.update({ activo,nombre,descripcion,ruta, id_categoria, image: path},{where:{id}})
+    }else{
+        await Category.update({ activo,nombre,descripcion,ruta, id_categoria},{where:{id}})
+    }
+    return "editado exitoxamente";
 
   }
   const processNewUser = async (input) => {
