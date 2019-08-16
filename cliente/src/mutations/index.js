@@ -48,4 +48,8 @@ mutation editCategory($input: categoryInput ){
     editCategory(input: $input)
 }`;
 
-export { UPLOAD_FILE, EDIT_PRODUCT, NEW_PRODUCT, AUTHENTICATION_USER, REMOVE_IMG_PRPDUCT, NEW_CATEGORY, EDIT_CATEGORY }
+const NEW_OFERTAS = gql`
+   mutation newOferta($input:  NewOfertaInput){
+        newOferta(input: $input)
+}`;
+export { NEW_OFERTAS,UPLOAD_FILE, EDIT_PRODUCT, NEW_PRODUCT, AUTHENTICATION_USER, REMOVE_IMG_PRPDUCT, NEW_CATEGORY, EDIT_CATEGORY }

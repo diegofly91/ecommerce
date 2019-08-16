@@ -15,7 +15,6 @@ class EditCategoria extends Component {
             }
     sendInfo = async (editCategory) =>{
         const info = await this.childFormCategory.categoryFinal();
-        console.log(info)
         const {nombre, descripcion, id_categoria, image, id, activo} =  await info;
         if(nombre === "") {
             return swal("Campo Obligatorio!", "Debes llenar el nombre!", "error");

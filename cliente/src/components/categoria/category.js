@@ -4,6 +4,7 @@ import { Query } from 'react-apollo';
 import {Icon, List } from 'semantic-ui-react'
 import { Link } from 'react-router-dom';
 
+
 class Categorys extends Component {
     state = {
         categ : '',
@@ -68,9 +69,6 @@ class Categorys extends Component {
                                                 data-toggle="tooltip" 
                                                 data-placement="top" 
                                                 title="agregar nueva categoria"
-                                                hoverOn={e => {
-                                                    e.tooltip();
-                                                }}
                                             />
                                     </Link>
                                 </List.Item>

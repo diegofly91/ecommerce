@@ -6,10 +6,9 @@ import bcrypt from 'bcryptjs'
 
 
 import { User, TypoUsers } from "../models/user";
-import { Products, Category, ImageProduct, Op } from "../models/products";
+import { Products, Category, ImageProduct, Ofertas, TypeOferta, Op } from "../models/products";
 
 //generar token
-
 import dotenv from 'dotenv'
 dotenv.config({path:'variables.env'});
 import jwt from 'jsonwebtoken';
@@ -20,8 +19,8 @@ const createToken = (mailUsuario, secreto, expiresIn) => {
     return jwt.sign({mail}, secreto, {expiresIn});
 }
 
-const UPLOAD_DIR_PROD = '/productosimg';
-const UPLOAD_DIR_CATE = '/categoriasImg';
+const UPLOAD_DIR_PROD = '/img/productosimg';
+const UPLOAD_DIR_CATE = '/img/categoriasImg';
 
 mkdirp.sync(UPLOAD_DIR_PROD)
 
@@ -119,7 +118,6 @@ const storeFS = ({ stream, filename}, directory) => {
   }
   const processEditCategory = async (input) => {
     const {id,nombre,activo, descripcion, id_categoria, image} = await input;
-    console.log(typeof(image))
     const existCateg = await Category.findOne({raw: true,where:{nombre,id:{ [Op.ne]: id}}});
     if(existCateg)  throw new Error('la categoria ya existe');
     const ruta =  nombre.toLowerCase().replace(/[^a-z']/g, '-');
@@ -149,6 +147,22 @@ const storeFS = ({ stream, filename}, directory) => {
       })
       return resp;
   }
+  const processNewOfertas = async (input) => {
+      const { activo,productos,fecha_inicio,fecha_fin,descuento,id_descuento} = await input;
+      productos.forEach( async (element) => {
+          const existOferta = await Ofertas.findOne({raw: true,where:{
+                                                                        id_producto:element.id,  
+                                                                        $and: { fecha_fin  }
+                                                                     }
+                                                   });
+          if(existOferta){
+            await Ofertas.update({ activo,fecha_inicio,fecha_fin,descuento, id_descuento },{where:{id_producto: element.id}})
+          }else{
+            await Ofertas.create({ activo,fecha_inicio,fecha_fin,descuento, id_descuento,id_producto: element.id })
+         }
+      });
+      return "exito";
+  }
 
 export const resolvers = {
     User: {
@@ -168,8 +182,12 @@ export const resolvers = {
     },
     Category: {
         async subcategory(category){
-            console.log(category)
             return await Category.findAll({raw: true,where:{id_categoria: category.id}});
+        }
+    },
+    Oferta:{
+        async product(oferta){
+            return await Products.findOne({raw:true, where:{id: oferta.id_producto}});
         }
     },
     Query: {
@@ -181,7 +199,9 @@ export const resolvers = {
          },
          countProducts: async (root) => {
              return await Products.count({});
-
+         },
+         countOfertas: async(root) =>{
+            return await Ofertas.count({});
          },
          user : async(root,{ id })=>{
             return await User.findOne({raw: true, where:{id}})
@@ -209,14 +229,16 @@ export const resolvers = {
              //obtener el usuario actual del request JWT
              const usuario = User.findOne({raw:true, where:{mail: usuarioActual.mail}})
              return usuario
-         }
+         },
+         ofertas: async (root,{limit, offset}) =>{
+            return await Ofertas.findAll({raw: true, limit, offset})
+        },
     },
     Mutation: {
        singleUpload: async(root, { req }) =>  await  processUpload(req),
        deleteImgProduct: async(root, {id} ) => {
             const img = await ImageProduct.findOne({raw:true,where:{id}})
             const {imagen} = img;
-            console.log(imagen)
             fs.unlinkSync("."+imagen, async (err)=>{
                 if(err) throw new Error("no se pude eliminar el archivo")
             });
@@ -237,6 +259,7 @@ export const resolvers = {
            }
        },
        newCategory: async(root,{input})=> await processNewCategory(input),
-       editCategory: async (root,{input}) => await processEditCategory(input)
+       editCategory: async (root,{input}) => await processEditCategory(input),
+       newOferta: async (root,{input}) => await processNewOfertas(input)
       },
 }

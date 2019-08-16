@@ -36,7 +36,7 @@ const NavegationAuthentication = () => (
                         <Link to="/categorias" className="btn btn-dark text-white">Categorias</Link>
                     </li>
                     <li className="nav-item active ml-3">
-                        <Link to="/ofertas" className="btn btn-dark text-white">Ofertas</Link>
+                        <Link to="/oferta/nueva" className="btn btn-dark text-white">Ofertas</Link>
                     </li>
                     <li className="nav-item active ml-3">
                         <Link to="/pedidos" className="btn btn-dark text-white">Pedidos</Link>

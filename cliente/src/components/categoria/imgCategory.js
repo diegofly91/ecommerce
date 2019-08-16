@@ -29,7 +29,6 @@ class UploadImage extends Component {
                      <Dropzone 
                         onDrop={ (file) => {
                               file.forEach(element => {
-                                 console.log(element)
                                  if(element.type === "image/jpg" || element.type === "image/png" || element.type === "image/jpeg" ){
                                     this.setState ({ 
                                         previewFile:URL.createObjectURL (element),

@@ -29,7 +29,7 @@ const typeDefs = gql`
 
     """ Campos de los productos """
     type Products {
-        id: ID 
+        id: Int 
         nombre: String
         precio: Int
         ruta: String
@@ -91,16 +91,15 @@ const typeDefs = gql`
 
      type Oferta {
        id: Int !
-       id_producto: Int
-       id_categoria: Int
+       id_producto: Int!
        descuento: Int!
-       tipo_descuento: Int!
+       id_descuento: Int!
        activo: Boolean!
        fecha_inicio: String
        fecha_fin: String
-       image: Upload
        fecha: String
        typoDescuent: [TypeDescuent]
+       product: Products
     }
 
     """ Query para ver datos de los Users"""
@@ -110,7 +109,8 @@ const typeDefs = gql`
         TypeUsers : [TypoUsers]
         products(limit: Int, offset: Int ): [Products]
         product (ruta: String!): Products
-        countProducts : String
+        countProducts : Int
+        countOfertas : Int
         imageProduct : [ImageProduct]
         categorys (id_categoria : Int): [Category]
         category (id: Int!): Category
@@ -185,16 +185,27 @@ const typeDefs = gql`
         file: Upload!
     }
 
+    input NewOfertaInput {
+       productos: [productInputOfer]!
+       id_descuento: Int!
+       descuento: Int!
+       activo: Boolean!
+       fecha_inicio: String
+       fecha_fin: String
+    }
+    input productInputOfer {
+        id: Int!
+        id_categoria:Int
+        nombre: String
+    }
     input ofertaInput {
        id: Int !
-       id_producto: Int
-       id_categoria: Int
+       id_producto: Int!
        descuento: Int!
        tipo_descuento: Int!
        activo: Boolean!
        fecha_inicio: String
        fecha_fin: String
-       image: Upload
        fecha: String
     }
 
@@ -208,7 +219,7 @@ const typeDefs = gql`
          athenticationUser(mail: String!, passw:String! ): Token
          newCategory(input: NewCategoryInput): Int!
          editCategory(input: categoryInput): String!
-         newOferta(input: ofertaInput): String!
+         newOferta(input:  NewOfertaInput): String!
     }
     `;
 

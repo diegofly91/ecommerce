@@ -20,12 +20,22 @@ const PRODUCTOS_QUERY =  gql`
                         precio
                         ruta
                         fecha
+                        id_categoria
                         image{
                               imagen
                               orden
                         }
                   }
                   countProducts
+  }
+`;
+const PRODUCTOS_OFERTA_QUERY =  gql`
+  query products($limit: Int, $offset: Int ){
+                  products(limit:$limit, offset:$offset){
+                        id 
+                        id_categoria
+                        nombre
+                  }
   }
 `;
 
@@ -40,6 +50,11 @@ const CATEGORYS_QUERY =  gql`
                         ruta
                         descripcion
                         activo
+                        subcategory{
+                              id
+                              nombre
+                              id_categoria
+                        }
                   }
        }
 `;
@@ -98,4 +113,4 @@ const USUARIO_ACTUAL = gql`
 
 `;
 
-export { USUARIOS_QUERY, PRODUCTOS_QUERY, PRODUCTO_QUERY, CATEGORYS_QUERY, USUARIO_ACTUAL, CATEGORY_QUERY }
+export { PRODUCTOS_OFERTA_QUERY,USUARIOS_QUERY, PRODUCTOS_QUERY, PRODUCTO_QUERY, CATEGORYS_QUERY, USUARIO_ACTUAL, CATEGORY_QUERY }
