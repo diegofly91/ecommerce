@@ -74,6 +74,7 @@ const Ofertas = sequelize.define('ofertas', {
 const TypeOferta = sequelize.define('tipo_oferta', {
    id: {type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true},
    nombre: Sequelize.STRING,
+   simbolo: Sequelize.STRING,
  }, {
    timestamps: false
  },{

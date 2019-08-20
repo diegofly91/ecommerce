@@ -45,6 +45,7 @@ import { PRODUCTOS_QUERY } from '../../queries'
                     <h2 className="text-center">Listado Productos</h2>
                     <ul className="list-group col-md-10 mx-auto">
                      <div style={{position:"absolute", top:"-30px",right:"10px", zIndex:"20"}}>
+                    
                         <Link to={`/producto/nuevo`}>
                               <Icon 
                                   name='plus circle' 
@@ -59,19 +60,34 @@ import { PRODUCTOS_QUERY } from '../../queries'
                         <li className="list-group-item" key={item.id}> 
                                   <div className="row justify-content-between align-items-center">
                                         <div className="col-md-3 d-flex justify-content-between align-items-center text-uppercase">
-                                          <figure>
-                                            {item.image[0] !== undefined ?
-                                                <img src={`${direct}${item.image[0].imagen}`}  alt="" className="img-responsive"/> 
-                                                :  <img src={`${direct}/sin-img.jpg`}  alt="" className="img-responsive"/>           
-                                            }
-                                          </figure> 
+                                            <figure>
+                                              {item.image[0] !== undefined ?
+                                                  <img src={`${direct}${item.image[0].imagen}`}  alt="" className="img-responsive"/> 
+                                                  :  <img src={`${direct}/sin-img.jpg`}  alt="" className="img-responsive"/>           
+                                              }
+                                            </figure>
                                         </div>
                                         <div className="col-md-6 d-flex flex-column text-center">
                                           <h4 className="text-ligth  text-uppercase"> {item.nombre}</h4> 
-                                          <span>Precio: ${item.precio}</span> 
-                                          <span>Editado: {format(item.fecha)}</span>           
-                                        </div>
-                                        <div className="col-md-3 d-flex justify-content-center align-items-center"> 
+                                          <span className="font-weight-bold" style={{fontSize:"17px"}}>Precio: ${item.precio}</span> 
+                                          <span className="font-weight-bold" style={{fontSize:"17px"}}>Editado: {format(item.fecha)}</span>              
+                                       </div>
+                                        <div className="col-md-3 d-flex justify-content-center align-items-center flex-column"> 
+                                          {item.oferta?
+                                            <Link to={`/oferta/editar/${item.oferta.id}`} style={{position:"relative",fontSize:"12.5px", zIndex:2,marginBottom:"10px"}}> 
+                                                <Icon 
+                                                    name='star' 
+                                                    color={item.oferta.activo?"red":"grey"} 
+                                                    size="massive" 
+                                                    style={{cursor:'pointer',position:"relative", zIndex:2}}
+                                                    title={item.oferta.activo?"oferta activa":"oferta desactivada"} 
+                                                >    
+                                                  <span style={{position:'absolute',top:"50%",left:"50%",transform:'translate(-50%,-50%)',fontSize:"23px", color:"#fff"}}> 
+                                                    {item.oferta.typoDescuent.simbolo} {item.oferta.descuento}
+                                                  </span>
+                                                </Icon>   
+                                            </Link> 
+                                            :''}
                                             <Link to={`/producto/editar/${item.ruta}`} className="btn btn-success d-block d-md-inline-block">
                                                 Editar Producto
                                             </Link>

@@ -40,14 +40,15 @@ class NewOferta extends Component{
                  <Mutation 
                             mutation={ NEW_OFERTAS }  
                             onCompleted={ async e => {
-                                               console.log(e);
-                                            // swal("Se a editado la categoria!", "You clicked the button!", "success")
-                                            // .then((value) => {
-                                            //     this.props.history.push("/categorias")
-                                            // })
+                                            swal(e.newOferta, "You clicked the button!", "success")
+                                            .then((value) => {
+                                                this.props.history.push("/ofertas")
+                                            })
                                         }}
                         >
                             {( newOferta, {loading, error, data}) => {
+                                if(loading) return <Loading />;
+                                if(error) return <Error  error={error} />;
                                 return (
                                     <Button content='Crear'   
                                            disabled={ (id_descuento && descuento && productos) && !(id_descuento == 1 && descuento > 100) ? false : true }
@@ -74,4 +75,4 @@ class NewOferta extends Component{
         )
     }
 }
-export default NewOferta;
+export default withRouter(NewOferta);

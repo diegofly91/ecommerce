@@ -1,10 +1,12 @@
-import React, { Component } from 'react'
-//import {Icon, Boton } from 'semantic-ui-css'
+import React, { Component, Fragment } from 'react'
+import Header from './header'
 
 export class Market extends Component {
     render() {
         return (
-            <div>Tienda</div>
+            <Fragment>
+                <div>Tienda</div>
+            </Fragment>
         )
     }
 }

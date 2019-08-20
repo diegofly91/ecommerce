@@ -44,6 +44,7 @@ const typeDefs = gql`
         cantidad:Int
         image: [ImageProduct]
         activo: Boolean
+        oferta: Oferta
     } 
 
     """ Campos de imagenes producto"""
@@ -87,6 +88,7 @@ const typeDefs = gql`
      type TypeDescuent {
         id: Int!
         nombre: String
+        simbolo: String
     }
 
      type Oferta {
@@ -98,7 +100,7 @@ const typeDefs = gql`
        fecha_inicio: String
        fecha_fin: String
        fecha: String
-       typoDescuent: [TypeDescuent]
+       typoDescuent: TypeDescuent
        product: Products
     }
 
@@ -115,7 +117,7 @@ const typeDefs = gql`
         categorys (id_categoria : Int): [Category]
         category (id: Int!): Category
         obtenerUsuario: Email
-        ofertas(limit:Int, Offset:Int):[Oferta]
+        ofertas(limit: Int, offset: Int): [Oferta]
         oferta (id: Int!):Oferta
     }
 
@@ -202,11 +204,10 @@ const typeDefs = gql`
        id: Int !
        id_producto: Int!
        descuento: Int!
-       tipo_descuento: Int!
+       id_descuento: Int!
        activo: Boolean!
        fecha_inicio: String
        fecha_fin: String
-       fecha: String
     }
 
     """ Mutation para subir un archivo"""
@@ -220,6 +221,8 @@ const typeDefs = gql`
          newCategory(input: NewCategoryInput): Int!
          editCategory(input: categoryInput): String!
          newOferta(input:  NewOfertaInput): String!
+         removeOferta(id: Int!): String!
+         editOferta(input: ofertaInput): String!
     }
     `;
 

@@ -151,10 +151,10 @@ const storeFS = ({ stream, filename}, directory) => {
       const { activo,productos,fecha_inicio,fecha_fin,descuento,id_descuento} = await input;
       productos.forEach( async (element) => {
           const existOferta = await Ofertas.findOne({raw: true,where:{
-                                                                        id_producto:element.id,  
-                                                                        $and: { fecha_fin  }
+                                                                        id_producto:element.id
                                                                      }
                                                    });
+              console.log(existOferta)                                     
           if(existOferta){
             await Ofertas.update({ activo,fecha_inicio,fecha_fin,descuento, id_descuento },{where:{id_producto: element.id}})
           }else{
@@ -178,6 +178,9 @@ export const resolvers = {
     Products: {
         async image(product) {
             return await ImageProduct.findAll({raw: true,where:{id_producto: product.id}});
+        },
+        async oferta(product){
+            return await Ofertas.findOne({raw: true,where:{id_producto: product.id}});
         }
     },
     Category: {
@@ -188,6 +191,9 @@ export const resolvers = {
     Oferta:{
         async product(oferta){
             return await Products.findOne({raw:true, where:{id: oferta.id_producto}});
+        },
+        async  typoDescuent(oferta){
+            return await TypeOferta.findOne({raw:true, where:{id: oferta.id_descuento}})
         }
     },
     Query: {
@@ -222,17 +228,20 @@ export const resolvers = {
          category : async(root, { id }) =>{
              return await Category.findOne({raw: true, where: {id}})
         },
-         obtenerUsuario: (root,arg,{usuarioActual}) => {
-             if(!usuarioActual){
-                 return null
-             }
-             //obtener el usuario actual del request JWT
-             const usuario = User.findOne({raw:true, where:{mail: usuarioActual.mail}})
-             return usuario
-         },
+        obtenerUsuario: (root,arg,{usuarioActual}) => {
+            if(!usuarioActual){
+                return null
+            }
+            //obtener el usuario actual del request JWT
+            const usuario = User.findOne({raw:true, where:{mail: usuarioActual.mail}})
+            return usuario
+        },
          ofertas: async (root,{limit, offset}) =>{
             return await Ofertas.findAll({raw: true, limit, offset})
         },
+        oferta: async (root,{id}) =>{
+            return await Ofertas.findOne({raw:true,where:{id}})
+        }
     },
     Mutation: {
        singleUpload: async(root, { req }) =>  await  processUpload(req),
@@ -260,6 +269,23 @@ export const resolvers = {
        },
        newCategory: async(root,{input})=> await processNewCategory(input),
        editCategory: async (root,{input}) => await processEditCategory(input),
-       newOferta: async (root,{input}) => await processNewOfertas(input)
-      },
+       newOferta: async (root,{input}) => await processNewOfertas(input),
+       removeOferta: async(root,{id}) => {
+        return await Ofertas.findOne({
+                        where: { id }
+                     }).then((result) => {
+                        return Ofertas.destroy({ where: {id}})
+                            .then((u) => { return 'exito' });
+                     });
+       },
+      editOferta: async (root,{input}) => {
+        const { activo,id,fecha_inicio,fecha_fin,descuento,id_descuento, id_producto} = await input; 
+        return await Ofertas.findOne({
+            where: { id }
+         }).then((result) => {
+            return Ofertas.update({ activo,fecha_inicio,fecha_fin,descuento, id_descuento },{where:{id}})
+                .then((u) => { return 'exito' });
+         });
+      }
+    }
 }

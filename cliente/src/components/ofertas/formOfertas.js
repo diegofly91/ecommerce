@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import {Form, Button, Checkbox, Select } from 'semantic-ui-react'
+import {Form, Checkbox, Select } from 'semantic-ui-react'
 import { CATEGORYS_QUERY, PRODUCTOS_OFERTA_QUERY } from '../../queries'
 import {Query } from 'react-apollo'
 import Error from '../Alertas/Error'
@@ -7,18 +7,16 @@ import Loading from '../Alertas/loader'
 import SelectInfo from './select'
 import DateTimePicker from 'react-datetime-picker';
 
-
-
 class FormOferta extends Component{
     state = {
-        activo: true,
+        activo: (this.props.oferta)? this.props.oferta.activo:true,
         productos: '',
         categorias: '',
-        fecha_inicio: null,
-        fecha_fin: null,
-        fecha_fin_min: null,
-        descuento: null,
-        id_descuento:null
+        fecha_inicio:  (this.props.oferta)? (this.props.oferta.fecha_inicio?new Date(Number(this.props.oferta.fecha_inicio)):null):null,
+        fecha_fin: (this.props.oferta)?(this.props.oferta.fecha_fin)?new Date(Number(this.props.oferta.fecha_fin)):null:null,
+        fecha_fin_min:  null,
+        descuento:  (this.props.oferta)? this.props.oferta.descuento:null,
+        id_descuento: (this.props.oferta)? this.props.oferta.id_descuento:null
     }
     options = async () =>{
         const values = await this.state;
@@ -40,7 +38,7 @@ class FormOferta extends Component{
         return this.state;
     }
     render(){
-        const {activo, fecha_inicio, fecha_fin, fecha_fin_min, id_descuento, descuento} = this.state;
+        const {activo, fecha_inicio, fecha_fin, fecha_fin_min, id_descuento, descuento} =  this.state;
         return(
              <Fragment>
                  <Form onClick={this.options}>
@@ -55,6 +53,7 @@ class FormOferta extends Component{
                               }}
                     />  
                     <p className="text-warning">escoja entre categorias o productos</p>
+                    {!this.props.oferta?
                     <Form.Group>
                         <Query query={CATEGORYS_QUERY} >
                             {({loading, error, data}) =>{
@@ -86,7 +85,7 @@ class FormOferta extends Component{
                                     )
                                 }}
                         </Query> 
-                    </Form.Group> 
+                    </Form.Group> : ''}
                 </Form>
                 <div className="d-flex ml-2" onClick={this.options}>
                                 <div className="ml-2" style={{maxWidth:"220px"}}>                                  
@@ -132,12 +131,11 @@ class FormOferta extends Component{
                                 </div>
                                 <Form>
                                     <Form.Group>
-
                                         <Form.Field
                                             control={Select}
                                             options={[
-                                                { key: 'm', text: '%', value: '1' },
-                                                { key: 'f', text: '$', value: '2' },
+                                                { key:'m' ,text: '%', value: 1 },
+                                                { key:'f' ,text: '$', value: 2 },
                                             ]}
                                             onChange={ (e, data)=>{
                                                 this.setState({
@@ -145,12 +143,13 @@ class FormOferta extends Component{
                                                     id_descuento: data.value
                                                 })
                                                 this.options();
-                                            }}
+                                            }} 
                                             label={{ children: 'tipo de descuento', htmlFor: 'form-select-control-gender' }}
                                             placeholder='tipo de descuento'
-                                            search
                                             searchInput={{ id: 'form-select-control-gender' }}
-                                        />
+                                            value={id_descuento?id_descuento:''}
+                                                                               />
+                                                                 
                                         <Form.Field 
                                               onChange={ (e, data)=>{
                                                   this.setState({
@@ -163,6 +162,7 @@ class FormOferta extends Component{
                                               label='cantidad de descuento' 
                                               control='input' 
                                               type='number' 
+                                              value={descuento? descuento: ''}
                                               error={(id_descuento == 1 && descuento > 100)?true: false }
                                               min={1} max={(id_descuento == 1 )? 100 : ''} 
                                         />

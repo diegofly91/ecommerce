@@ -12,10 +12,11 @@ export class editProducts extends Component {
         const { ruta } = this.props.match.params;
         return (
             <Fragment>
-                <Query query={PRODUCTO_QUERY} variables={{ruta}}>
+                <Query query={PRODUCTO_QUERY} variables={{ruta}} fetchPolicy="network-only">
                       {({loading, error, data, refetch}) =>{
                           if(loading) return "Cargando";
                           if(error) return `Error ${error}`;
+                          console.log(data)
                           return ( 
                              <Fragment>
                                          <FormProduct product={data.product} refetch={refetch} />

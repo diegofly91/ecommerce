@@ -16,6 +16,7 @@ import NewCategory from './components/categoria/newCategory'
 import UploadImage from './components/categoria/imgCategory'
 import Ofertas from './components/ofertas/ofertas'
 import NewOferta from './components/ofertas/newOfertas'
+import EditOferta from './components/ofertas/editOfertas'
 
 import PrivateRoute from './components/PrivateRoute'
 import Categorys from './components/categoria/category';
@@ -40,6 +41,7 @@ const App = ({refetch, session}) => {
                              <PrivateRoute exact path="/categoria/imagen" refetch={refetch}  usuarioAutenticado={obtenerUsuario} component={UploadImage} />
                              <PrivateRoute exact path="/ofertas" refetch={refetch}  usuarioAutenticado={obtenerUsuario} component={Ofertas} />
                              <PrivateRoute exact path="/oferta/nueva" refetch={refetch}  usuarioAutenticado={obtenerUsuario} component={NewOferta} />
+                             <PrivateRoute exact path="/oferta/editar/:id" refetch={refetch}  usuarioAutenticado={obtenerUsuario} component={EditOferta} />
                              <PrivateRoute exact path="/" refetch={refetch}  usuarioAutenticado={obtenerUsuario} component={Home} />
                              <Route exact path="/Tienda" component={Market} />
                          </Switch> 

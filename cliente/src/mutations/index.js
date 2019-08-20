@@ -52,4 +52,15 @@ const NEW_OFERTAS = gql`
    mutation newOferta($input:  NewOfertaInput){
         newOferta(input: $input)
 }`;
-export { NEW_OFERTAS,UPLOAD_FILE, EDIT_PRODUCT, NEW_PRODUCT, AUTHENTICATION_USER, REMOVE_IMG_PRPDUCT, NEW_CATEGORY, EDIT_CATEGORY }
+
+const REMOVE_OFERTA =gql`
+    mutation removeOferta($id: Int!){
+        removeOferta(id: $id)
+    }
+`;
+const EDIT_OFERTA = gql`
+   mutation editOferta($input:  ofertaInput){
+        editOferta(input: $input)
+}`;
+
+export { EDIT_OFERTA,REMOVE_OFERTA,NEW_OFERTAS,UPLOAD_FILE, EDIT_PRODUCT, NEW_PRODUCT, AUTHENTICATION_USER, REMOVE_IMG_PRPDUCT, NEW_CATEGORY, EDIT_CATEGORY }

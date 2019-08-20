@@ -11,13 +11,13 @@ class Paginator extends Component {
         const { paginas } = this.state.paginator;
         const { actual } = this.props;
         const btnPrev = (actual > 1) 
-                                ?  <button className="ui icon left labeled button" onClick={this.props.pagPrev}>
+                                ?  <button className="ui icon left labeled button mb-3" onClick={this.props.pagPrev}>
                                         <i aria-hidden="true" className="left arrow icon"></i>
                                         Prev                                        
                                     </button>
                                 : '';
         const btnNext = (actual < paginas )
-                                 ?  <button className="ui icon right labeled button"  onClick={this.props.pagNext}>
+                                 ?  <button className="ui icon right labeled button mb-3"  onClick={this.props.pagNext}>
                                          Next                                         
                                        <i aria-hidden="true" className="right arrow icon"></i>
                                     </button>
