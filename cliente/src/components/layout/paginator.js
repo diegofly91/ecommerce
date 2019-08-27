@@ -5,11 +5,20 @@ class Paginator extends Component {
     state = {
          paginator : {
              paginas: Math.ceil(Number(this.props.total) / this.props.limite),
-         } 
+         }, 
+         actual: this.props.actual 
+    }
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+          paginator:{
+              paginas: Math.ceil(Number(nextProps.total) / nextProps.limite)
+          },
+          actual: nextProps.actual
+        })
     }
     render(){
         const { paginas } = this.state.paginator;
-        const { actual } = this.props;
+        const { actual } = this.state;
         const btnPrev = (actual > 1) 
                                 ?  <button className="ui icon left labeled button mb-3" onClick={this.props.pagPrev}>
                                         <i aria-hidden="true" className="left arrow icon"></i>
@@ -22,12 +31,10 @@ class Paginator extends Component {
                                        <i aria-hidden="true" className="right arrow icon"></i>
                                     </button>
                                  : '';
-
         return(
           <div className="d-flex justify-content-center mt-3">
               {btnPrev}
               {btnNext}
-
           </div>
          
         )

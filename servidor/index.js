@@ -37,4 +37,3 @@ const server = new ApolloServer({
 server.applyMiddleware({app});
 
 app.listen({port: 5000},  () => console.log(`servidor esta corriendo ${server.graphqlPath}`));
-

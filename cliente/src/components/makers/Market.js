@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import Header from './header'
+import Nabvar from './navbar'
 
 export class Market extends Component {
     render() {

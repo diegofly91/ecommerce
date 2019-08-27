@@ -43,7 +43,7 @@ class Ofertas extends Component{
                 return (
                   <Fragment >
                       <h2 className="text-center">Lista de ofertas</h2>
-                      <ul className="list-group col-md-12 mx-auto">
+                      <ul className="list-group col-md-10 mx-auto">
                        <div style={{position:"absolute", top:"-30px",right:"10px", zIndex:"20"}}>
                           <Link to={`/oferta/nueva`}>
                                 <Icon 

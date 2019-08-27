@@ -64,14 +64,17 @@ const CATEGORYS_QUERY =  gql`
                               id
                               nombre
                               id_categoria
+                              ruta
+                              activo
+                              ruta
                         }
                   }
        }
 `;
 
 const CATEGORY_QUERY =  gql`
-       query category($id : Int!){
-            category(id: $id ){
+       query category($ruta : String!){
+            category(ruta: $ruta ){
                         id
                         nombre
                         id_categoria
@@ -88,6 +91,29 @@ const CATEGORY_QUERY =  gql`
                   }
        }
 `;
+
+const PRODUCTS_CATEG_QUERY = gql`
+    query productsCateg($id_categoria : Int!, $limit: Int, $offset: Int, $id_producto: Int) {
+      productsCateg(id_categoria : $id_categoria, limit: $limit,offset:$offset, id_producto:$id_producto){
+            id
+            nombre
+            precio 
+            ruta
+            image{
+            imagen
+            }
+            oferta{
+            descuento
+            activo
+            fecha_inicio
+            fecha_fin
+            typoDescuent{
+                  simbolo
+            }
+            }
+      },
+      countProductsCat(id_categoria : $id_categoria)
+}`;
 
 const OFERTA_QUERY =  gql`
        query oferta($id : Int!){
@@ -122,6 +148,15 @@ const PRODUCTO_QUERY =  gql`
                   id_categoria
                   id_tipo
                   id_genero
+                  oferta{
+                        descuento
+                        activo 
+                        fecha_inicio
+                        fecha_fin
+                        typoDescuent{
+                              simbolo
+                        }
+                  }
                   image { 
                               imagen
                               orden
@@ -166,4 +201,4 @@ const OFERTAS_QUERY =  gql`
   }
 `;
 
-export { OFERTA_QUERY,OFERTAS_QUERY,PRODUCTOS_OFERTA_QUERY,USUARIOS_QUERY, PRODUCTOS_QUERY, PRODUCTO_QUERY, CATEGORYS_QUERY, USUARIO_ACTUAL, CATEGORY_QUERY }
+export { PRODUCTS_CATEG_QUERY,OFERTA_QUERY,OFERTAS_QUERY,PRODUCTOS_OFERTA_QUERY,USUARIOS_QUERY, PRODUCTOS_QUERY, PRODUCTO_QUERY, CATEGORYS_QUERY, USUARIO_ACTUAL, CATEGORY_QUERY }

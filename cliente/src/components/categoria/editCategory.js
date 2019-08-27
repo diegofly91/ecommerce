@@ -11,7 +11,8 @@ import Loading from '../Alertas/loader'
 
 class EditCategoria extends Component {
     state = { 
-             id : Number(this.props.match.params.id)
+             ruta : this.props.match.params.ruta,
+             id: null
             }
     sendInfo = async (editCategory) =>{
         const info = await this.childFormCategory.categoryFinal();
@@ -27,6 +28,7 @@ class EditCategoria extends Component {
             id,
             activo
         }
+        console.log(input)
         editCategory({ variables: { input },
                         refetchQueries:[{
                                         query: CATEGORYS_QUERY, 
@@ -35,12 +37,14 @@ class EditCategoria extends Component {
                     });
     }        
     render() {
-        const {id} = this.state;
+        const {ruta} = this.state;
         return (
-            <Query query={CATEGORY_QUERY} variables={{id}} fetchPolicy="network-only" >
+            <Query query={CATEGORY_QUERY} variables={{ruta}} fetchPolicy="network-only" >
             {({loading, error, data}) =>{
                 if(loading) return "Cargando";
                 if(error) return `Error ${error}`;
+                console.log(data.category)
+                this.state.id = data.category.id;
                 const {id_categoria } = data.category;
                 return (
                    <div>

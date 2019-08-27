@@ -44,8 +44,7 @@ import { PRODUCTOS_QUERY } from '../../queries'
                 <Fragment >
                     <h2 className="text-center">Listado Productos</h2>
                     <ul className="list-group col-md-10 mx-auto">
-                     <div style={{position:"absolute", top:"-30px",right:"10px", zIndex:"20"}}>
-                    
+                     <div style={{position:"absolute", top:"-30px",right:"10px", zIndex:"20"}}>             
                         <Link to={`/producto/nuevo`}>
                               <Icon 
                                   name='plus circle' 

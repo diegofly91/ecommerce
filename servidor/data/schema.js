@@ -113,12 +113,14 @@ const typeDefs = gql`
         product (ruta: String!): Products
         countProducts : Int
         countOfertas : Int
+        countProductsCat(id_categoria: Int!): Int
         imageProduct : [ImageProduct]
         categorys (id_categoria : Int): [Category]
-        category (id: Int!): Category
+        category (ruta: String!): Category
         obtenerUsuario: Email
         ofertas(limit: Int, offset: Int): [Oferta]
         oferta (id: Int!):Oferta
+        productsCateg (id_categoria : Int!, limit: Int, offset: Int, id_producto: Int): [Products]
     }
 
     """ Input de los dartos que necesitas para subir una imagen de un producto"""
@@ -166,9 +168,9 @@ const typeDefs = gql`
     }
    
     input categoryInput {
-       id: Int !
+       id: Int!
        nombre: String!
-       descripcion: String!
+       descripcion: String
        image: Upload
        id_categoria: Int
        activo: Boolean

@@ -45,7 +45,7 @@ class Categorys extends Component {
                                                     >
                                                       {item.nombre}
                                                     </span> 
-                                                    <Link to={`/categoria/editar/${item.id}`}><Icon  circular name="edit outline" color="blue" className="mr-2" /></Link>
+                                                    <Link to={`/categoria/editar/${item.ruta}`}><Icon  circular name="edit outline" color="blue" className="mr-2" /></Link>
                                                 </List.Header>
                                                 
                                                  {   this.state.act === item.id ? 
@@ -99,7 +99,7 @@ class Box extends Component {
                                     <List.Item key={itemS.id} className="mt-2">
                                         <List.Icon name='folder' size="large"  color={itemS.activo ? 'blue': 'red'}/>
                                         <List.Content>
-                                            <List.Header className="mt-2"><Link  to={`/categoria/editar/${itemS.id}`}>{itemS.nombre}</Link></List.Header>
+                                            <List.Header className="mt-2"><Link  to={`/categoria/editar/${itemS.ruta}`}>{itemS.nombre}</Link></List.Header>
                                         </List.Content>
                                     </List.Item> : '';
                             })} 

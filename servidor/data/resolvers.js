@@ -206,6 +206,9 @@ export const resolvers = {
          countProducts: async (root) => {
              return await Products.count({});
          },
+         countProductsCat: async (root,{id_categoria}) => {
+             return await Products.count({where:{id_categoria}});
+        },
          countOfertas: async(root) =>{
             return await Ofertas.count({});
          },
@@ -225,8 +228,8 @@ export const resolvers = {
                 return await Category.findAll({raw: true})
             }
          },
-         category : async(root, { id }) =>{
-             return await Category.findOne({raw: true, where: {id}})
+         category : async(root, { ruta }) =>{
+             return await Category.findOne({raw: true, where: {ruta}})
         },
         obtenerUsuario: (root,arg,{usuarioActual}) => {
             if(!usuarioActual){
@@ -241,6 +244,13 @@ export const resolvers = {
         },
         oferta: async (root,{id}) =>{
             return await Ofertas.findOne({raw:true,where:{id}})
+        },
+        productsCateg: async (root,{ id_categoria, limit, offset, id_producto}) => {
+            if(!id_producto){
+               return await Products.findAll({raw: true, limit, offset, where:{id_categoria}});
+            }else{
+                return await Products.findAll({raw: true, limit, offset, where:{id_categoria,id:{ [Op.ne]: id_producto}}});
+            }
         }
     },
     Mutation: {

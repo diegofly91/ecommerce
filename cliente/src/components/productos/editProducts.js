@@ -16,7 +16,6 @@ export class editProducts extends Component {
                       {({loading, error, data, refetch}) =>{
                           if(loading) return "Cargando";
                           if(error) return `Error ${error}`;
-                          console.log(data)
                           return ( 
                              <Fragment>
                                          <FormProduct product={data.product} refetch={refetch} />

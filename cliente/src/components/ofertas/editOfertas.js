@@ -65,7 +65,6 @@ class EditOfert extends Component {
                             {( editOferta, {loading, error, data}) => {
                                 if(loading) return <Loading />;
                                 if(error) return <Error  error={error} />;
-        
                                 return (
                                     <Button content='Editar'   
                                            disabled={ (id_descuento && descuento ) && !(id_descuento == 1 && descuento > 100) ? false : true }
