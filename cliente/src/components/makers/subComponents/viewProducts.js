@@ -45,7 +45,7 @@ class ViewProducts extends Component {
         })
     }
     ofertaPrecio(simbol, precio, descuento){
-       if(simbol == "%"){
+       if(simbol.simbolo == "%"){
            let desc = descuento/100;
            let descPe = desc* precio;
            return precio-descPe;
@@ -59,7 +59,7 @@ class ViewProducts extends Component {
         return( 
             <Fragment>
                 { (cate && id_categoria !== "") ? 
-                    <Query query={PRODUCTS_CATEG_QUERY} variables={{id_categoria, limit: this.limite, offset: this.state.paginator.offset, id_producto}}>
+                    <Query query={PRODUCTS_CATEG_QUERY} variables={{id_categoria, limit: this.limite, offset: this.state.paginator.offset, id_producto}} pollInterval={10000} >
                     { ({loading, error, data}) =>{
                         if(loading) return <Loading  />;
                         if(error) return <Error error={error} />;

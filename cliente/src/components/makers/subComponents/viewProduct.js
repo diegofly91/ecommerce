@@ -19,7 +19,8 @@ class ViewProduct extends Component{
         })
     }
     ofertaPrecio(simbol, precio, descuento){
-        if(simbol == "%"){
+     
+        if(simbol.simbolo === "%"){
             let desc = descuento/100;
             let descPe = desc* precio;
             return precio-descPe;
@@ -31,7 +32,7 @@ class ViewProduct extends Component{
     render(){
         const {ruta} = this.state;
         return(
-         <Query query={PRODUCTO_QUERY} variables={{ruta}} fetchPolicy="network-only">
+         <Query query={PRODUCTO_QUERY} variables={{ruta}} fetchPolicy="network-only"  pollInterval={4000}>
                { ({loading, error, data}) =>{
                         if(loading) return <Loading  />;
                         if(error) return <Error error={error} />;
@@ -52,12 +53,16 @@ class ViewProduct extends Component{
                                                   <p>{data.product.descripcion}</p>
                                                   <div>
                                                    {data.product.oferta
-                                                        ?<div className="d-flex justify-content-star text-danger mt-3 mb-3">
+                                                        ? data.product.oferta.activo?<div className="d-flex justify-content-star text-danger mt-3 mb-3">
                                                                 <span className="text-muted"style={{fontSize:"30px",textDecorationLine:"line-through"}}>${data.product.precio } </span>
                                                                 <span className="pl-2" style={{fontSize:"34px", fontWeight:"600"}}>
                                                                 ${this.ofertaPrecio(data.product.oferta.typoDescuent,data.product.precio,data.product.oferta.descuento)}   
                                                                 </span>
-                                                        </div>   
+                                                        </div> : 
+                                                        <div className="d-flex justify-content-start text-danger"
+                                                        style={{fontSize:"34px", fontWeight:"600"}}>
+                                                    ${data.product.precio}
+                                                    </div> 
                                                         :<div className="d-flex justify-content-start text-danger"
                                                             style={{fontSize:"34px", fontWeight:"600"}}>
                                                         ${data.product.precio}
