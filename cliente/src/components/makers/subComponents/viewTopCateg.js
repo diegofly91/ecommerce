@@ -14,15 +14,17 @@ const ViewTopCateg = ({categoria}) => {
             <div className="d-flex flex-wrap justify-content-around">
                 {categoria.subcategory.map(item=>{
                     return(
-                        <Link to={`/Tienda/${item.ruta}`} key={item.id} >
-                            <figure>
-                                <h3>{item.nombre}</h3>
-                                {item.image !== undefined ?
-                                    <img src={`${direct}${item.image}`}  alt="" className="img-fluid"/> 
-                                    : <img src={`${direct}/sin-img.jpg`}  alt="" className="img-responsive"/>           
-                                }
-                            </figure>
-                        </Link>
+                        <div className="col-md-3" key={item.id}>
+                            <Link to={`/Tienda/${item.ruta}`} >
+                                <h3 className="text-center">{item.nombre}</h3>
+                                <figure>
+                                    {item.image !== null ?
+                                        <img src={`${direct}${item.image}`}  alt="" className="img-fluid"/> 
+                                        : <img src={`${direct}/sin-img.jpg`}  alt="" className="img-responsive"/>           
+                                    }
+                                </figure>
+                            </Link>
+                        </div>
                     )
                 })}   
              </div> 

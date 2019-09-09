@@ -12,6 +12,7 @@ import {InMemoryCache} from 'apollo-cache-inmemory';
 import { ApolloProvider }from 'react-apollo';
 import { setContext } from 'apollo-link-context';
 import { onError } from 'apollo-link-error';
+import {CartProvider} from './components/context'
 
 const direct = "http://localhost/ecommerce-graphQL/servidor";
 
@@ -39,7 +40,7 @@ const users = new ApolloClient({
   });
 
 ReactDOM.render( 
-   <ApolloProvider client={users}><RootSession /></ApolloProvider>, 
+   <ApolloProvider client={users}><CartProvider><RootSession /></CartProvider></ApolloProvider>, 
   document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change

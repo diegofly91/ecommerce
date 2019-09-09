@@ -87,6 +87,7 @@ const CATEGORY_QUERY =  gql`
                                     id
                                     nombre
                                     ruta
+                                    image
                               }
                   }
        }

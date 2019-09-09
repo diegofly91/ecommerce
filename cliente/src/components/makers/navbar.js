@@ -1,20 +1,22 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component, Fragment, useContext } from 'react'
 import { List, Segment, Icon, Input } from 'semantic-ui-react'
 import { direct } from '../../index';
 import { Link } from 'react-router-dom';
+import {CartContext} from '../context'
 import NavbarCateg from './navbarCateg'
 
 class Nabvar extends Component{
         state = { 
                  activeItem: false,
                  categ: '',
-                }
-        handleItemClick = () => this.setState({ activeItem: !this.state.activeItem })  
+                }      
+        handleItemClick = () => this.setState({ activeItem: !this.state.activeItem });     
         render() {
+           
             const {activeItem} = this.state;
           return (
             <Fragment>  
-                <Segment inverted style={{borderRadius:"0"}}>
+                <Segment inverted style={{borderRadius:"0", marginBottom:"0"}}>
                     <div className="d-flex container p-0">                
                         <div className="col-lg-9  col-md-9 col-sm-9 col-xs-10 " >
                         <List horizontal>
@@ -51,39 +53,36 @@ class Nabvar extends Component{
                     </div>
                 </Segment>
                 <div className="container-fluid p-0">	
-                        <div className="container p-0">
+                        <div className="container pl-3 pr-3">
                             <div className="row mb-3" id="cabezote">
-                                <div className="col-lg-3">
+                                <div className="col-lg-3 p-1 d-flex align-items-center">
                                     <Link to="/Tienda">
-                                       <img src={`${direct}/img/plantilla/logo.png`} width="200" alt="" className="img-responsive"/> 
+                                       <img src={`${direct}/img/plantilla/logo.png`}  alt="" style={{width:"100%"}}/> 
                                     </Link>
-                                </div>
-                                <div className="col-lg-6  d-flex align-items-center p-0">
-                                    <div style={{fontSize: "20px",fontWeight:"600"}} className="col-lg-5 col-md-5 col-sm-5 col-xs-12 d-flex justify-content-between" >
-                                        CATEGORÍAS
+                                </div> 
+                                <div className="input-group col-lg-9 d-flex align-items-center justify-content-end p-1" >
+                                    <Input icon='search' placeholder='Search...'style={{height:"45px",flexGrow:"1",maxWidth:"500px"}}/>
+                                    <div className="d-flex align-items-center align-item-center justify-content-end m-1 pr-2 pl-2 ">
+                                        <Link to="/Tienda/cart">
+                                            <button className="btn btn-block bg-primary text-white"> 
+                                                <Icon 
+                                                    name="cart"
+                                                />
+                                                <NumCart />
+                                            </button>
+                                        </Link> 
                                         <Icon 
                                             name="bars"
                                             color="black"
+                                            size="big"
+                                            className="pl-2 pr-2"
                                             onClick={ () => {
                                                 this.handleItemClick()
                                             }}
                                         />
                                     </div>
-                                    <div className="input-group col-lg-7 col-md-7 col-sm-7 col-xs-12">
-                                        <Input icon='search' placeholder='Search...' style={{width: "100%"}} />
                                     </div>
                                 </div>
-                                <div className="col-lg-3">
-                                    <div className="d-flex align-items-center border justify-content-between m-1">
-                                        <button className="btn btn-default bg-primary text-white"> 
-                                            <Icon 
-                                                name="cart"
-                                            />
-                                        </button>
-                                        <p>TU CESTA <span className="cantidadCesta">3</span>  USD $ <span className="sumaCesta">20</span></p>	
-                                    </div>
-                                </div>
-                            </div>
                             {activeItem ?
                                     <NavbarCateg onChange={this.handleItemClick} />   
                                 : ''
@@ -93,6 +92,15 @@ class Nabvar extends Component{
             </Fragment>    
           )
   }
+}
+
+const NumCart = () => {
+    const {cart} = useContext(CartContext)
+    return (
+         <Fragment>
+           {cart.length}    
+         </Fragment>
+    )
 }
 
 export default Nabvar;

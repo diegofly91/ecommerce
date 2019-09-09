@@ -12,6 +12,7 @@ import Login from './components/Auth/login'
 import Session from './components/Session'
 import Market from './components/makers/Market'
 import MarketProducts from './components/makers/marketProducts'
+import Cart from './components/makers/cart'
 import EditCategory from './components/categoria/editCategory'
 import NewCategory from './components/categoria/newCategory'
 import UploadImage from './components/categoria/imgCategory'
@@ -44,6 +45,7 @@ const App = ({refetch, session}) => {
                         <PrivateRoute exact path="/oferta/editar/:id" refetch={refetch}  usuarioAutenticado={obtenerUsuario} component={EditOferta} />
                         <PrivateRoute exact path="/" refetch={refetch}  usuarioAutenticado={obtenerUsuario} component={Home} />
                         <Route exact path="/Tienda" component={Market} />
+                        <Route exact path="/Tienda/cart" component={Cart}  />
                         <Route exact path="/Tienda/:ruta" component={MarketProducts}  />
                   </Switch> 
                 </div>  

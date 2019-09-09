@@ -10,7 +10,7 @@ import {Icon, ItemContent} from 'semantic-ui-react'
 import { ftruncate } from 'fs';
 
 class ViewProducts extends Component {
-    limite = 3;
+    limite = 4;
     state = {
         cate: this.props.data.cate,
         id_categoria: this.props.data.id_categoria,
@@ -59,9 +59,9 @@ class ViewProducts extends Component {
         return( 
             <Fragment>
                 { (cate && id_categoria !== "") ? 
-                    <Query query={PRODUCTS_CATEG_QUERY} variables={{id_categoria, limit: this.limite, offset: this.state.paginator.offset, id_producto}} pollInterval={10000} >
+                    <Query query={PRODUCTS_CATEG_QUERY} variables={{id_categoria, limit: this.limite, offset: this.state.paginator.offset, id_producto}} fetchPolicy="network-only" pollInterval={10000} >
                     { ({loading, error, data}) =>{
-                        if(loading) return <Loading  />;
+                       if(loading) return <Loading  />;
                         if(error) return <Error error={error} />;
                         this.state.cate = true;
                         this.state.products = data.productsCateg;
@@ -73,7 +73,7 @@ class ViewProducts extends Component {
                                 {data.productsCateg.length > 0 ?  
                                     data.productsCateg.map(item => {
                                         return(
-                                            <div className="col-md-4 p-2" key={item.id}>
+                                            <div className="col-md-3 p-2" key={item.id}>
                                              <Link to={`/Tienda/${item.ruta}`}>   
                                                 <div className="card" style={{position:"relative"}}>
                                                     {item.image[0] !== undefined ?

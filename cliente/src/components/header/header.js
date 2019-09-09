@@ -1,9 +1,9 @@
-import React, {Fragment, Component} from 'react';
+import React, {Fragment} from 'react';
 import { Link } from 'react-router-dom';
 import CerrarSession from '../layout/cerrarSesion'
 import Nabvar from '../makers/navbar'
 
- const Headers = ({session}) =>{ 
+ const Headers = ({session}) =>{
         const barra = (window.location.pathname.includes("/Tienda"))?<Nabvar />:(session.obtenerUsuario)? <NavegationAuthentication/> : <NavegationNoAuthentication />;
         return (
             <Fragment>
