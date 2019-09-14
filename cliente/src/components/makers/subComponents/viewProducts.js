@@ -7,7 +7,6 @@ import {Link} from 'react-router-dom'
 import {direct} from '../../../index'
 import Paginator from '../../layout/paginator'
 import {Icon, ItemContent} from 'semantic-ui-react'
-import { ftruncate } from 'fs';
 
 class ViewProducts extends Component {
     limite = 4;
@@ -59,7 +58,7 @@ class ViewProducts extends Component {
         return( 
             <Fragment>
                 { (cate && id_categoria !== "") ? 
-                    <Query query={PRODUCTS_CATEG_QUERY} variables={{id_categoria, limit: this.limite, offset: this.state.paginator.offset, id_producto}} fetchPolicy="network-only" pollInterval={10000} >
+                    <Query query={PRODUCTS_CATEG_QUERY} variables={{id_categoria, limit: this.limite, offset: this.state.paginator.offset, id_producto}} fetchPolicy="network-only">
                     { ({loading, error, data}) =>{
                        if(loading) return <Loading  />;
                         if(error) return <Error error={error} />;

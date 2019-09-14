@@ -1,4 +1,4 @@
-import React, { Component, Fragment, useContext } from 'react'
+import React, { Fragment, useContext } from 'react'
 import { List, Segment, Icon, Input } from 'semantic-ui-react'
 import { direct } from '../../index';
 import { Link } from 'react-router-dom';
@@ -6,7 +6,6 @@ import {CartContext} from '../context'
 
 export default function Cart(){
         const {cart} = useContext(CartContext);
-        console.log(cart)
         return (
           <Fragment>
             <h2 className="text-center">Carrito</h2>

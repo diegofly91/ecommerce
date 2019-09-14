@@ -10,6 +10,7 @@ import { ApolloClient } from 'apollo-client'
 import { createUploadLink } from 'apollo-upload-client'
 import {InMemoryCache} from 'apollo-cache-inmemory';
 import { ApolloProvider }from 'react-apollo';
+import { ApolloProvider as ApolloHooksProvider } from 'react-apollo-hooks';
 import { setContext } from 'apollo-link-context';
 import { onError } from 'apollo-link-error';
 import {CartProvider} from './components/context'
@@ -40,12 +41,13 @@ const users = new ApolloClient({
   });
 
 ReactDOM.render( 
-   <ApolloProvider client={users}><CartProvider><RootSession /></CartProvider></ApolloProvider>, 
+   <ApolloProvider client={users}>
+     <ApolloHooksProvider client={users}>
+        <CartProvider><RootSession /></CartProvider>
+     </ApolloHooksProvider>
+    </ApolloProvider>, 
   document.getElementById('root'));
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();
 
 export {direct}

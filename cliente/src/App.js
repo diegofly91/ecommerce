@@ -11,7 +11,7 @@ import newProducts from './components/productos/newProducts';
 import Login from './components/Auth/login'
 import Session from './components/Session'
 import Market from './components/makers/Market'
-import MarketProducts from './components/makers/marketProducts'
+import {MarketProducts} from './components/makers/marketProducts'
 import Cart from './components/makers/cart'
 import EditCategory from './components/categoria/editCategory'
 import NewCategory from './components/categoria/newCategory'

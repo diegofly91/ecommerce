@@ -2,14 +2,14 @@ import React, {Fragment} from 'react'
 import { direct } from '../../../index';
 import {Link} from 'react-router-dom'
 
-const ViewTopCateg = ({categoria}) => {
-    const {nombre} = categoria;
+const ViewTopCateg =  ({categoria}) => {
+    const {nombre} =  categoria;
     return(
         <div key={categoria.id} className="d-flex justify-content-center flex-column">
             <h2 className="text-center">{nombre}</h2>
-            {categoria.image !== undefined ?
+            {categoria.image !== null ?
                 <img src={`${direct}${categoria.image}`}  alt="" className="img-fluid m-auto"/> 
-                :  <img src={`${direct}/sin-img.jpg`}  alt="" className="img-responsive"/>           
+                : ''          
             }
             <div className="d-flex flex-wrap justify-content-around">
                 {categoria.subcategory.map(item=>{
