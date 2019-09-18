@@ -1,4 +1,4 @@
-import React, { Component, Fragment, useState, useEffect } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
 import {CATEGORY_QUERY} from '../../queries';
 import {useQuery} from 'react-apollo-hooks'
 import Loading from '../Alertas/loader'
@@ -14,7 +14,7 @@ export const MarketProducts = (props) => {
        })
        const { loading, data, error} = useQuery(CATEGORY_QUERY , {variables:{ ruta}})
        if(loading) return <Loading />
-       if(loading) return <Error error={error} />
+       if(error) return <Error error={error} />
        const {category} = data;
        return(
         <Fragment>

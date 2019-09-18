@@ -6,10 +6,10 @@ import Error from '../../Alertas/Error'
 import {Link} from 'react-router-dom'
 import {direct} from '../../../index'
 import Paginator from '../../layout/paginator'
-import {Icon, ItemContent} from 'semantic-ui-react'
+import {Icon,Pagination} from 'semantic-ui-react'
 
 class ViewProducts extends Component {
-    limite = 4;
+    limite = 3;
     state = {
         cate: this.props.data.cate,
         id_categoria: this.props.data.id_categoria,
@@ -35,6 +35,14 @@ class ViewProducts extends Component {
              offset: this.state.paginator.offset - this.limite,
            }
      })
+    }
+    pagAct = (pag) => {
+        this.setState({
+            paginator:{
+                actual: pag,
+                offset: pag + this.limit
+            }
+        })
     }
     componentWillReceiveProps(nextProps) {
         this.setState({
@@ -120,12 +128,13 @@ class ViewProducts extends Component {
                                 }
                                 {id_producto?"": 
                                 <div className="d-flex justify-content-center col-12">
-                                    <Paginator  
+                                    <Paginator 
                                     total={data.countProductsCat} 
                                     actual={this.state.paginator.actual} 
                                     limite={this.limite} 
                                     pagNext={this.pagNext}
-                                    pagPrev={this.pagPrev} />
+                                    pagPrev={this.pagPrev}
+                                    pagAct={this.pagAct} />
                                 </div>
                                 }
                             </div>

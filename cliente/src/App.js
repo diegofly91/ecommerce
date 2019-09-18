@@ -5,7 +5,7 @@ import Home from './components/home/home'
 import Usuarios from './components/usuarios/Usuarios'
 import Headers from './components/header/header'
 import verUsuario from './components/usuarios/verUsuario'
-import products from './components/productos/products'
+import Products from './components/productos/products'
 import editProducts from './components/productos/editProducts';
 import newProducts from './components/productos/newProducts';
 import Login from './components/Auth/login'
@@ -34,7 +34,7 @@ const App = ({refetch, session}) => {
                         <PrivateRoute exact path="/usuarios"  refetch={refetch} usuarioAutenticado={obtenerUsuario} component={Usuarios} />
                         <PrivateRoute exact path="/categorias"  refetch={refetch} usuarioAutenticado={obtenerUsuario} component={Categorys} />
                         <PrivateRoute exact path="/usuario/ver/:id" refetch={refetch}  usuarioAutenticado={obtenerUsuario}  component={verUsuario} />
-                        <PrivateRoute exact path="/productos" refetch={refetch}  usuarioAutenticado={obtenerUsuario} component={products} />
+                        <PrivateRoute exact path="/productos" refetch={refetch}  usuarioAutenticado={obtenerUsuario} component={Products} />
                         <PrivateRoute exact path="/producto/editar/:ruta" refetch={refetch}  usuarioAutenticado={obtenerUsuario} component={editProducts} />
                         <PrivateRoute exact path="/producto/nuevo" refetch={refetch}  usuarioAutenticado={obtenerUsuario} component={newProducts} />
                         <PrivateRoute exact path="/categoria/editar/:ruta" refetch={refetch}  usuarioAutenticado={obtenerUsuario} component={EditCategory} />

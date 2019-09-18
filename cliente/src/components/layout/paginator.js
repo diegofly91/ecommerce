@@ -1,6 +1,30 @@
-import React, { Component } from 'react'
+import React, { Component, useState, useEffect } from 'react'
 // import {Icon, Button, Divider} from 'semantic-ui-react'
+import { Pagination } from 'semantic-ui-react'
 
+// export const Paginator = ({total,actual,limite,pagNext,pagPrev, pagAct}) => {
+//         const [paginas,] = useState(Math.ceil(Number(total) / limite));                       
+//         return(
+//             <div className="d-flex justify-content-center mt-3">
+//                 <Pagination
+//                     boundaryRange={0}
+//                     defaultActivePage={actual}
+//                     boundaryRange={0}
+//                     siblingRange={1}
+//                     totalPages={paginas}
+//                     lastItem={false}
+//                     firstItem={false}
+//                     onPageChange= {(e, data)=>{
+//                         pagAct(data.activePage)
+//                         //pagAct(data.activePage)
+                     
+//                         // console.log(data.activePage)
+//                     }}
+//                 />
+//             </div>
+            
+//         )                         
+// }
 class Paginator extends Component {
     state = {
          paginator : {
